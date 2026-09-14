@@ -1,0 +1,1468 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Messages — Qelvuzo</title>
+
+    <link
+        rel="stylesheet"
+        href="css/style.css"
+    >
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            background: #f8f8fc;
+            overflow: hidden;
+        }
+
+        /* =========================
+           TOP NAVBAR
+        ========================= */
+
+        .messenger-nav {
+            height: 68px;
+            background: #ffffff;
+            border-bottom: 1px solid var(--border);
+
+            display: flex;
+            align-items: center;
+
+            padding: 0 22px;
+
+            position: relative;
+            z-index: 10;
+        }
+
+        .messenger-nav-inner {
+            width: 100%;
+            max-width: 1400px;
+            margin: auto;
+
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .qelvuzo-logo {
+            color: var(--primary);
+            text-decoration: none;
+
+            font-size: 24px;
+            font-weight: 800;
+        }
+
+        .nav-right {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .nav-icon {
+            width: 40px;
+            height: 40px;
+
+            border: none;
+            border-radius: 50%;
+
+            background: #f4f4fa;
+
+            cursor: pointer;
+
+            font-size: 17px;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            transition: 0.2s;
+        }
+
+        .nav-icon:hover {
+            background: var(--soft-purple);
+            color: var(--primary);
+        }
+
+        .nav-profile {
+            width: 40px;
+            height: 40px;
+
+            border-radius: 50%;
+
+            background: var(--soft-purple);
+            color: var(--primary);
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            font-weight: 700;
+        }
+
+
+        /* =========================
+           MESSENGER LAYOUT
+        ========================= */
+
+        .messenger {
+            height: calc(100vh - 68px);
+
+            max-width: 1400px;
+            margin: auto;
+
+            display: grid;
+
+            grid-template-columns: 340px 1fr 250px;
+
+            background: white;
+
+            border-left: 1px solid var(--border);
+            border-right: 1px solid var(--border);
+        }
+
+
+        /* =========================
+           LEFT SIDEBAR
+        ========================= */
+
+        .conversation-sidebar {
+            border-right: 1px solid var(--border);
+
+            display: flex;
+            flex-direction: column;
+
+            min-width: 0;
+        }
+
+        .conversation-header {
+            padding: 20px;
+
+            border-bottom: 1px solid var(--border);
+        }
+
+        .conversation-title {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+
+            margin-bottom: 18px;
+        }
+
+        .conversation-title h2 {
+            margin: 0;
+
+            font-size: 22px;
+            color: var(--text);
+        }
+
+        .new-message {
+            width: 36px;
+            height: 36px;
+
+            border: none;
+            border-radius: 50%;
+
+            background: var(--soft-purple);
+            color: var(--primary);
+
+            font-size: 19px;
+
+            cursor: pointer;
+        }
+
+        .conversation-search {
+            height: 42px;
+
+            background: #f5f5fa;
+
+            border-radius: 14px;
+
+            display: flex;
+            align-items: center;
+
+            padding: 0 13px;
+
+            gap: 9px;
+        }
+
+        .conversation-search span {
+            color: var(--muted);
+            font-size: 17px;
+        }
+
+        .conversation-search input {
+            border: none;
+            outline: none;
+
+            width: 100%;
+
+            background: transparent;
+
+            font-size: 13px;
+        }
+
+        .conversation-list {
+            overflow-y: auto;
+            flex: 1;
+        }
+
+
+        /* Conversation */
+
+        .conversation {
+            display: flex;
+            align-items: center;
+
+            gap: 12px;
+
+            padding: 13px 17px;
+
+            cursor: pointer;
+
+            transition: 0.18s;
+
+            position: relative;
+        }
+
+        .conversation:hover {
+            background: #fafaff;
+        }
+
+        .conversation.active {
+            background: var(--soft-purple);
+        }
+
+        .conversation-avatar {
+            width: 52px;
+            height: 52px;
+
+            flex-shrink: 0;
+
+            border-radius: 50%;
+
+            background: #eeeeff;
+
+            color: var(--primary);
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            font-size: 17px;
+            font-weight: 700;
+
+            position: relative;
+        }
+
+        .online {
+            position: absolute;
+
+            width: 12px;
+            height: 12px;
+
+            background: #45c979;
+
+            border: 2px solid white;
+
+            border-radius: 50%;
+
+            right: 0;
+            bottom: 1px;
+        }
+
+        .conversation-info {
+            min-width: 0;
+            flex: 1;
+        }
+
+        .conversation-top {
+            display: flex;
+            justify-content: space-between;
+            gap: 8px;
+        }
+
+        .conversation-name {
+            color: var(--text);
+
+            font-size: 14px;
+            font-weight: 700;
+
+            margin: 0;
+        }
+
+        .conversation-time {
+            color: var(--muted);
+
+            font-size: 10px;
+
+            white-space: nowrap;
+        }
+
+        .conversation-message {
+            margin: 5px 0 0;
+
+            color: var(--muted);
+
+            font-size: 12px;
+
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .unread {
+            width: 8px;
+            height: 8px;
+
+            border-radius: 50%;
+
+            background: var(--primary);
+        }
+
+
+        /* =========================
+           CHAT AREA
+        ========================= */
+
+        .chat {
+            display: flex;
+            flex-direction: column;
+
+            min-width: 0;
+
+            background: white;
+        }
+
+
+        /* Chat Header */
+
+        .chat-header {
+            height: 76px;
+
+            padding: 0 22px;
+
+            border-bottom: 1px solid var(--border);
+
+            display: flex;
+            align-items: center;
+
+            justify-content: space-between;
+        }
+
+        .chat-user {
+            display: flex;
+            align-items: center;
+
+            gap: 12px;
+        }
+
+        .chat-avatar {
+            width: 45px;
+            height: 45px;
+
+            border-radius: 50%;
+
+            background: var(--soft-purple);
+            color: var(--primary);
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            font-weight: 700;
+
+            position: relative;
+        }
+
+        .chat-user-info h3 {
+            margin: 0;
+
+            color: var(--text);
+
+            font-size: 15px;
+        }
+
+        .chat-user-info p {
+            margin: 4px 0 0;
+
+            color: #45a86b;
+
+            font-size: 11px;
+        }
+
+        .chat-actions {
+            display: flex;
+            gap: 7px;
+        }
+
+        .chat-action {
+            width: 38px;
+            height: 38px;
+
+            border: none;
+
+            border-radius: 50%;
+
+            background: #f5f5fa;
+
+            color: var(--primary);
+
+            cursor: pointer;
+
+            font-size: 15px;
+        }
+
+
+        /* Messages */
+
+        .messages {
+            flex: 1;
+
+            overflow-y: auto;
+
+            padding: 25px;
+
+            display: flex;
+            flex-direction: column;
+
+            gap: 12px;
+        }
+
+        .date-label {
+            align-self: center;
+
+            color: var(--muted);
+
+            font-size: 10px;
+
+            margin-bottom: 5px;
+        }
+
+        .message-row {
+            display: flex;
+
+            align-items: flex-end;
+
+            gap: 8px;
+        }
+
+        .message-row.sent {
+            justify-content: flex-end;
+        }
+
+        .small-avatar {
+            width: 29px;
+            height: 29px;
+
+            border-radius: 50%;
+
+            background: var(--soft-purple);
+
+            color: var(--primary);
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            font-size: 10px;
+            font-weight: 700;
+        }
+
+        .message-content {
+            max-width: 62%;
+
+            display: flex;
+            flex-direction: column;
+        }
+
+        .message-row.sent .message-content {
+            align-items: flex-end;
+        }
+
+        .bubble {
+            padding: 10px 14px;
+
+            border-radius: 18px;
+
+            font-size: 13px;
+
+            line-height: 1.55;
+        }
+
+        .received .bubble {
+            background: #f0f0f6;
+
+            color: var(--text);
+
+            border-bottom-left-radius: 5px;
+        }
+
+        .sent .bubble {
+            background: var(--primary);
+
+            color: white;
+
+            border-bottom-right-radius: 5px;
+        }
+
+        .message-time {
+            color: var(--muted);
+
+            font-size: 9px;
+
+            margin-top: 4px;
+        }
+
+
+        /* Typing */
+
+        .typing {
+            display: flex;
+            align-items: center;
+
+            gap: 5px;
+
+            background: #f0f0f6;
+
+            width: fit-content;
+
+            padding: 10px 13px;
+
+            border-radius: 17px;
+        }
+
+        .typing span {
+            width: 5px;
+            height: 5px;
+
+            border-radius: 50%;
+
+            background: #999;
+
+            display: block;
+        }
+
+
+        /* =========================
+           MESSAGE INPUT
+        ========================= */
+
+        .message-input-area {
+            min-height: 72px;
+
+            border-top: 1px solid var(--border);
+
+            padding: 13px 18px;
+
+            display: flex;
+            align-items: center;
+
+            gap: 8px;
+        }
+
+        .input-action {
+            width: 37px;
+            height: 37px;
+
+            border: none;
+
+            border-radius: 50%;
+
+            background: transparent;
+
+            color: var(--primary);
+
+            cursor: pointer;
+
+            font-size: 16px;
+        }
+
+        .input-action:hover {
+            background: var(--soft-purple);
+        }
+
+        .message-input {
+            flex: 1;
+
+            height: 43px;
+
+            border: none;
+
+            background: #f5f5fa;
+
+            border-radius: 15px;
+
+            padding: 0 15px;
+
+            outline: none;
+
+            font-size: 13px;
+
+            color: var(--text);
+        }
+
+        .send-message {
+            width: 42px;
+            height: 42px;
+
+            border: none;
+
+            border-radius: 50%;
+
+            background: var(--primary);
+
+            color: white;
+
+            cursor: pointer;
+
+            font-size: 16px;
+        }
+
+        .send-message:hover {
+            background: var(--primary-dark);
+        }
+
+
+        /* =========================
+           RIGHT PROFILE PANEL
+        ========================= */
+
+        .chat-profile {
+            border-left: 1px solid var(--border);
+
+            padding: 25px 18px;
+
+            text-align: center;
+
+            overflow-y: auto;
+        }
+
+        .profile-avatar {
+            width: 80px;
+            height: 80px;
+
+            margin: 10px auto 13px;
+
+            border-radius: 50%;
+
+            background: var(--soft-purple);
+
+            color: var(--primary);
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            font-size: 27px;
+
+            font-weight: 700;
+        }
+
+        .chat-profile h3 {
+            margin: 0;
+
+            color: var(--text);
+
+            font-size: 17px;
+        }
+
+        .profile-username {
+            color: var(--muted);
+
+            font-size: 12px;
+
+            margin-top: 5px;
+        }
+
+        .profile-actions {
+            display: grid;
+
+            grid-template-columns: repeat(2, 1fr);
+
+            gap: 8px;
+
+            margin: 20px 0;
+        }
+
+        .profile-action {
+            border: none;
+
+            background: #f5f5fa;
+
+            padding: 10px 5px;
+
+            border-radius: 12px;
+
+            color: var(--text);
+
+            font-size: 11px;
+
+            cursor: pointer;
+        }
+
+        .profile-section {
+            border-top: 1px solid var(--border);
+
+            padding-top: 18px;
+
+            text-align: left;
+
+            margin-top: 18px;
+        }
+
+        .profile-section h4 {
+            margin: 0 0 12px;
+
+            color: var(--text);
+
+            font-size: 12px;
+        }
+
+        .profile-setting {
+            padding: 9px 0;
+
+            display: flex;
+
+            justify-content: space-between;
+
+            color: var(--muted);
+
+            font-size: 11px;
+        }
+
+
+        /* =========================
+           RESPONSIVE
+        ========================= */
+
+        @media (max-width: 1050px) {
+
+            .messenger {
+                grid-template-columns: 300px 1fr;
+            }
+
+            .chat-profile {
+                display: none;
+            }
+        }
+
+
+        @media (max-width: 750px) {
+
+            body {
+                overflow: auto;
+            }
+
+            .messenger-nav {
+                height: 62px;
+            }
+
+            .messenger {
+                height: calc(100vh - 62px);
+
+                display: block;
+
+                border: none;
+            }
+
+            .conversation-sidebar {
+                display: none;
+            }
+
+            .chat {
+                height: 100%;
+            }
+
+            .chat-header {
+                padding: 0 14px;
+            }
+
+            .messages {
+                padding: 18px 13px;
+            }
+
+            .message-content {
+                max-width: 78%;
+            }
+
+            .chat-actions .chat-action:nth-child(1),
+            .chat-actions .chat-action:nth-child(2) {
+                display: none;
+            }
+
+            .message-input-area {
+                padding: 10px;
+            }
+
+            .input-action:nth-child(2),
+            .input-action:nth-child(3) {
+                display: none;
+            }
+        }
+
+
+        @media (max-width: 450px) {
+
+            .qelvuzo-logo {
+                font-size: 20px;
+            }
+
+            .nav-right .nav-icon {
+                width: 35px;
+                height: 35px;
+            }
+
+            .nav-profile {
+                width: 35px;
+                height: 35px;
+            }
+
+            .chat-header {
+                height: 68px;
+            }
+
+            .chat-avatar {
+                width: 40px;
+                height: 40px;
+            }
+
+            .chat-action {
+                width: 34px;
+                height: 34px;
+            }
+
+            .message-content {
+                max-width: 82%;
+            }
+
+            .bubble {
+                font-size: 12px;
+            }
+        }
+
+    </style>
+</head>
+
+
+<body>
+
+
+    <!-- =========================
+         NAVBAR
+    ========================= -->
+
+    <nav class="messenger-nav">
+
+        <div class="messenger-nav-inner">
+
+            <a
+                href="home.html"
+                class="qelvuzo-logo"
+            >
+                Qelvuzo
+            </a>
+
+
+            <div class="nav-right">
+
+                <button class="nav-icon">
+                    ⌕
+                </button>
+
+                <button class="nav-icon">
+                    ♧
+                </button>
+
+                <div class="nav-profile">
+                    Q
+                </div>
+
+            </div>
+
+        </div>
+
+    </nav>
+
+
+
+    <!-- =========================
+         MESSENGER
+    ========================= -->
+
+    <main class="messenger">
+
+
+        <!-- =========================
+             CONVERSATIONS
+        ========================= -->
+
+        <aside class="conversation-sidebar">
+
+            <div class="conversation-header">
+
+                <div class="conversation-title">
+
+                    <h2>
+                        Messages
+                    </h2>
+
+                    <button class="new-message">
+                        +
+                    </button>
+
+                </div>
+
+
+                <div class="conversation-search">
+
+                    <span>
+                        ⌕
+                    </span>
+
+                    <input
+                        type="text"
+                        placeholder="Search Messenger"
+                    >
+
+                </div>
+
+            </div>
+
+
+            <div class="conversation-list">
+
+
+                <!-- Active conversation -->
+
+                <div class="conversation active">
+
+                    <div class="conversation-avatar">
+
+                        A
+
+                        <span class="online"></span>
+
+                    </div>
+
+
+                    <div class="conversation-info">
+
+                        <div class="conversation-top">
+
+                            <p class="conversation-name">
+                                Arif Hasan
+                            </p>
+
+                            <span class="conversation-time">
+                                2m
+                            </span>
+
+                        </div>
+
+                        <p class="conversation-message">
+                            Hey! How are you?
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                <!-- Conversation -->
+
+                <div class="conversation">
+
+                    <div class="conversation-avatar">
+                        N
+                    </div>
+
+                    <div class="conversation-info">
+
+                        <div class="conversation-top">
+
+                            <p class="conversation-name">
+                                Nusrat Jahan
+                            </p>
+
+                            <span class="conversation-time">
+                                1h
+                            </span>
+
+                        </div>
+
+                        <p class="conversation-message">
+                            See you tomorrow!
+                        </p>
+
+                    </div>
+
+                    <span class="unread"></span>
+
+                </div>
+
+
+                <div class="conversation">
+
+                    <div class="conversation-avatar">
+                        R
+                    </div>
+
+                    <div class="conversation-info">
+
+                        <div class="conversation-top">
+
+                            <p class="conversation-name">
+                                Rakib Ahmed
+                            </p>
+
+                            <span class="conversation-time">
+                                3h
+                            </span>
+
+                        </div>
+
+                        <p class="conversation-message">
+                            That's awesome!
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                <div class="conversation">
+
+                    <div class="conversation-avatar">
+
+                        S
+
+                        <span class="online"></span>
+
+                    </div>
+
+                    <div class="conversation-info">
+
+                        <div class="conversation-top">
+
+                            <p class="conversation-name">
+                                Sarah Khan
+                            </p>
+
+                            <span class="conversation-time">
+                                5h
+                            </span>
+
+                        </div>
+
+                        <p class="conversation-message">
+                            Thanks for sharing!
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                <div class="conversation">
+
+                    <div class="conversation-avatar">
+                        M
+                    </div>
+
+                    <div class="conversation-info">
+
+                        <div class="conversation-top">
+
+                            <p class="conversation-name">
+                                Mahin Rahman
+                            </p>
+
+                            <span class="conversation-time">
+                                Yesterday
+                            </span>
+
+                        </div>
+
+                        <p class="conversation-message">
+                            Let's talk later.
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                <div class="conversation">
+
+                    <div class="conversation-avatar">
+                        T
+                    </div>
+
+                    <div class="conversation-info">
+
+                        <div class="conversation-top">
+
+                            <p class="conversation-name">
+                                Tanvir Ahmed
+                            </p>
+
+                            <span class="conversation-time">
+                                Yesterday
+                            </span>
+
+                        </div>
+
+                        <p class="conversation-message">
+                            Good luck!
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+            </div>
+
+        </aside>
+
+
+
+        <!-- =========================
+             CHAT
+        ========================= -->
+
+        <section class="chat">
+
+
+            <!-- Chat header -->
+
+            <header class="chat-header">
+
+                <div class="chat-user">
+
+                    <div class="chat-avatar">
+
+                        A
+
+                        <span class="online"></span>
+
+                    </div>
+
+
+                    <div class="chat-user-info">
+
+                        <h3>
+                            Arif Hasan
+                        </h3>
+
+                        <p>
+                            Active now
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                <div class="chat-actions">
+
+                    <button class="chat-action">
+                        ☎
+                    </button>
+
+                    <button class="chat-action">
+                        ◉
+                    </button>
+
+                    <button class="chat-action">
+                        ⓘ
+                    </button>
+
+                </div>
+
+            </header>
+
+
+
+            <!-- Messages -->
+
+            <div class="messages">
+
+
+                <div class="date-label">
+                    Today
+                </div>
+
+
+                <!-- Received -->
+
+                <div class="message-row received">
+
+                    <div class="small-avatar">
+                        A
+                    </div>
+
+                    <div class="message-content">
+
+                        <div class="bubble">
+                            Hey! How are you?
+                        </div>
+
+                        <span class="message-time">
+                            10:32 AM
+                        </span>
+
+                    </div>
+
+                </div>
+
+
+                <!-- Sent -->
+
+                <div class="message-row sent">
+
+                    <div class="message-content">
+
+                        <div class="bubble">
+                            I'm good! How about you?
+                        </div>
+
+                        <span class="message-time">
+                            10:33 AM
+                        </span>
+
+                    </div>
+
+                </div>
+
+
+                <!-- Received -->
+
+                <div class="message-row received">
+
+                    <div class="small-avatar">
+                        A
+                    </div>
+
+                    <div class="message-content">
+
+                        <div class="bubble">
+                            I'm doing great! Have you
+                            checked out Qelvuzo?
+                        </div>
+
+                        <span class="message-time">
+                            10:34 AM
+                        </span>
+
+                    </div>
+
+                </div>
+
+
+                <!-- Sent -->
+
+                <div class="message-row sent">
+
+                    <div class="message-content">
+
+                        <div class="bubble">
+                            Yes! The design looks really clean.
+                        </div>
+
+                        <span class="message-time">
+                            10:35 AM
+                        </span>
+
+                    </div>
+
+                </div>
+
+
+                <!-- Received -->
+
+                <div class="message-row received">
+
+                    <div class="small-avatar">
+                        A
+                    </div>
+
+                    <div class="message-content">
+
+                        <div class="bubble">
+                            Exactly! I really like the
+                            Softy style.
+                        </div>
+
+                        <span class="message-time">
+                            10:36 AM
+                        </span>
+
+                    </div>
+
+                </div>
+
+
+                <!-- Typing -->
+
+                <div class="message-row received">
+
+                    <div class="small-avatar">
+                        A
+                    </div>
+
+                    <div class="typing">
+
+                        <span></span>
+                        <span></span>
+                        <span></span>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+
+            <!-- Input -->
+
+            <form class="message-input-area">
+
+                <button
+                    type="button"
+                    class="input-action"
+                >
+                    +
+                </button>
+
+                <button
+                    type="button"
+                    class="input-action"
+                >
+                    ◎
+                </button>
+
+                <button
+                    type="button"
+                    class="input-action"
+                >
+                    ♡
+                </button>
+
+
+                <input
+                    type="text"
+                    class="message-input"
+                    placeholder="Aa"
+                >
+
+
+                <button
+                    type="button"
+                    class="input-action"
+                >
+                    ☺
+                </button>
+
+
+                <button
+                    type="submit"
+                    class="send-message"
+                >
+                    ➤
+                </button>
+
+            </form>
+
+        </section>
+
+
+
+        <!-- =========================
+             PROFILE PANEL
+        ========================= -->
+
+        <aside class="chat-profile">
+
+            <div class="profile-avatar">
+                A
+            </div>
+
+            <h3>
+                Arif Hasan
+            </h3>
+
+            <div class="profile-username">
+                @arifhasan
+            </div>
+
+
+            <div class="profile-actions">
+
+                <button class="profile-action">
+                    Profile
+                </button>
+
+                <button class="profile-action">
+                    Search
+                </button>
+
+            </div>
+
+
+            <div class="profile-section">
+
+                <h4>
+                    Chat settings
+                </h4>
+
+                <div class="profile-setting">
+                    <span>Theme</span>
+                    <span>Softy</span>
+                </div>
+
+                <div class="profile-setting">
+                    <span>Notifications</span>
+                    <span>On</span>
+                </div>
+
+                <div class="profile-setting">
+                    <span>Media</span>
+                    <span>24</span>
+                </div>
+
+            </div>
+
+
+            <div class="profile-section">
+
+                <h4>
+                    Privacy
+                </h4>
+
+                <div class="profile-setting">
+                    <span>Disappearing messages</span>
+                    <span>Off</span>
+                </div>
+
+            </div>
+
+        </aside>
+
+    </main>
+
+</body>
+
+</html>
