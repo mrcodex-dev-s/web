@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <meta
+        name="description"
+        content="Create your Qelvuzo account."
+    >
+
+    <title>Create account — Qelvuzo</title>
+
+    <link rel="stylesheet" href="css/style.css">
+
+    <style>
+        .auth-page {
+            min-height: calc(100vh - 74px);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 50px 20px;
+        }
+
+        .auth-card {
+            width: 100%;
+            max-width: 450px;
+            background: #ffffff;
+            border: 1px solid var(--border);
+            border-radius: 24px;
+            padding: 38px;
+            box-shadow: var(--shadow);
+        }
+
+        .auth-logo {
+            text-align: center;
+            color: var(--primary);
+            font-size: 27px;
+            font-weight: 800;
+            margin-bottom: 25px;
+        }
+
+        .auth-heading {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .auth-heading h1 {
+            font-size: 30px;
+            letter-spacing: -1px;
+            margin-bottom: 8px;
+        }
+
+        .auth-heading p {
+            color: var(--muted);
+            font-size: 14px;
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+        }
+
+        .form-group {
+            margin-bottom: 18px;
+        }
+
+        .form-group label {
+            display: block;
+            font-size: 13px;
+            font-weight: 600;
+            margin-bottom: 7px;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 13px 14px;
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            outline: none;
+            background: #fafaff;
+            color: var(--text);
+            font-size: 15px;
+            transition: 0.2s ease;
+        }
+
+        .form-group input:focus {
+            border-color: var(--primary);
+            background: #ffffff;
+            box-shadow:
+                0 0 0 3px rgba(108, 99, 255, 0.08);
+        }
+
+        .terms {
+            color: var(--muted);
+            font-size: 12px;
+            line-height: 1.6;
+            margin: 4px 0 20px;
+        }
+
+        .terms a {
+            color: var(--primary);
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        .auth-submit {
+            width: 100%;
+            border: none;
+            background: var(--primary);
+            color: white;
+            padding: 14px;
+            border-radius: 13px;
+            font-size: 15px;
+            font-weight: 650;
+            cursor: pointer;
+            transition: 0.2s ease;
+        }
+
+        .auth-submit:hover {
+            background: var(--primary-dark);
+            transform: translateY(-1px);
+        }
+
+        .auth-bottom {
+            text-align: center;
+            margin-top: 25px;
+            color: var(--muted);
+            font-size: 14px;
+        }
+
+        .auth-bottom a {
+            color: var(--primary);
+            text-decoration: none;
+            font-weight: 650;
+        }
+
+        @media (max-width: 500px) {
+
+            .auth-card {
+                padding: 28px 20px;
+                border-radius: 20px;
+            }
+
+            .auth-heading h1 {
+                font-size: 27px;
+            }
+
+            .form-row {
+                grid-template-columns: 1fr;
+                gap: 0;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- Navigation -->
+    <header class="navbar">
+
+        <div class="nav-container">
+
+            <a href="index.html" class="logo">
+                Qelvuzo
+            </a>
+
+            <div class="nav-actions">
+
+                <a
+                    href="login.html"
+                    class="login-link"
+                >
+                    Log in
+                </a>
+
+            </div>
+
+        </div>
+
+    </header>
+
+
+    <!-- Signup -->
+    <main class="auth-page">
+
+        <div class="auth-card">
+
+            <div class="auth-logo">
+                Qelvuzo
+            </div>
+
+            <div class="auth-heading">
+
+                <h1>
+                    Create your account
+                </h1>
+
+                <p>
+                    Join Qelvuzo and start connecting.
+                </p>
+
+            </div>
+
+
+            <form>
+
+                <div class="form-row">
+
+                    <div class="form-group">
+
+                        <label for="first-name">
+                            First name
+                        </label>
+
+                        <input
+                            type="text"
+                            id="first-name"
+                            name="first_name"
+                            placeholder="First name"
+                            autocomplete="given-name"
+                            required
+                        >
+
+                    </div>
+
+
+                    <div class="form-group">
+
+                        <label for="last-name">
+                            Last name
+                        </label>
+
+                        <input
+                            type="text"
+                            id="last-name"
+                            name="last_name"
+                            placeholder="Last name"
+                            autocomplete="family-name"
+                            required
+                        >
+
+                    </div>
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label for="username">
+                        Username
+                    </label>
+
+                    <input
+                        type="text"
+                        id="username"
+                        name="username"
+                        placeholder="@username"
+                        autocomplete="username"
+                        minlength="3"
+                        maxlength="30"
+                        required
+                    >
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label for="email">
+                        Email
+                    </label>
+
+                    <input
+                        type="email"
+                        id="email"
+                        name="email"
+                        placeholder="you@example.com"
+                        autocomplete="email"
+                        required
+                    >
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label for="password">
+                        Password
+                    </label>
+
+                    <input
+                        type="password"
+                        id="password"
+                        name="password"
+                        placeholder="Create a password"
+                        autocomplete="new-password"
+                        minlength="8"
+                        required
+                    >
+
+                </div>
+
+
+                <p class="terms">
+                    By creating an account, you agree to our
+                    <a href="#">Terms</a>
+                    and
+                    <a href="#">Privacy Policy</a>.
+                </p>
+
+
+                <button
+                    type="submit"
+                    class="auth-submit"
+                >
+                    Create account
+                </button>
+
+            </form>
+
+
+            <div class="auth-bottom">
+
+                Already have an account?
+
+                <a href="login.html">
+                    Log in
+                </a>
+
+            </div>
+
+        </div>
+
+    </main>
+
+</body>
+
+</html>
