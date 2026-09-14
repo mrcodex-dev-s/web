@@ -1,0 +1,754 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Notifications — Qelvuzo</title>
+
+    <link
+        rel="stylesheet"
+        href="css/style.css"
+    >
+
+    <style>
+
+        body {
+            background: #f8f8fc;
+        }
+
+        /* =========================
+           NAVBAR
+        ========================= */
+
+        .notification-nav {
+            background: #ffffff;
+
+            border-bottom: 1px solid var(--border);
+
+            padding: 14px 20px;
+
+            position: sticky;
+            top: 0;
+
+            z-index: 100;
+        }
+
+        .notification-nav-inner {
+            max-width: 1100px;
+
+            margin: auto;
+
+            display: flex;
+            align-items: center;
+
+            justify-content: space-between;
+        }
+
+        .notification-logo {
+            color: var(--primary);
+
+            text-decoration: none;
+
+            font-size: 23px;
+
+            font-weight: 800;
+        }
+
+        .notification-nav-right {
+            display: flex;
+
+            align-items: center;
+
+            gap: 8px;
+        }
+
+        .nav-small-btn {
+            border: none;
+
+            background: #f5f5fa;
+
+            color: var(--text);
+
+            border-radius: 10px;
+
+            padding: 9px 13px;
+
+            cursor: pointer;
+
+            font-size: 12px;
+
+            font-weight: 600;
+        }
+
+        .nav-small-btn:hover {
+            background: var(--soft-purple);
+
+            color: var(--primary);
+        }
+
+
+        /* =========================
+           PAGE
+        ========================= */
+
+        .notifications-page {
+            max-width: 850px;
+
+            margin: auto;
+
+            padding: 35px 20px 60px;
+        }
+
+
+        /* =========================
+           HEADER
+        ========================= */
+
+        .notifications-header {
+            display: flex;
+
+            align-items: center;
+
+            justify-content: space-between;
+
+            margin-bottom: 20px;
+        }
+
+        .notifications-header h1 {
+            margin: 0;
+
+            color: var(--text);
+
+            font-size: 25px;
+        }
+
+        .mark-read {
+            border: none;
+
+            background: transparent;
+
+            color: var(--primary);
+
+            cursor: pointer;
+
+            font-size: 13px;
+
+            font-weight: 600;
+        }
+
+
+        /* =========================
+           FILTERS
+        ========================= */
+
+        .notification-filters {
+            display: flex;
+
+            gap: 8px;
+
+            margin-bottom: 20px;
+
+            overflow-x: auto;
+
+            padding-bottom: 3px;
+        }
+
+        .filter-btn {
+            border: none;
+
+            background: #ffffff;
+
+            border: 1px solid var(--border);
+
+            color: var(--muted);
+
+            padding: 9px 16px;
+
+            border-radius: 20px;
+
+            white-space: nowrap;
+
+            cursor: pointer;
+
+            font-size: 12px;
+
+            font-weight: 600;
+        }
+
+        .filter-btn.active {
+            background: var(--primary);
+
+            color: #ffffff;
+
+            border-color: var(--primary);
+        }
+
+
+        /* =========================
+           NOTIFICATION CARD
+        ========================= */
+
+        .notification-list {
+            display: flex;
+
+            flex-direction: column;
+
+            gap: 10px;
+        }
+
+        .notification {
+            background: #ffffff;
+
+            border: 1px solid var(--border);
+
+            border-radius: 18px;
+
+            padding: 15px 17px;
+
+            display: flex;
+
+            align-items: center;
+
+            gap: 13px;
+
+            box-shadow: var(--shadow);
+
+            transition: 0.2s;
+        }
+
+        .notification:hover {
+            transform: translateY(-2px);
+        }
+
+        .notification.unread {
+            background: #faf9ff;
+
+            border-color: #e4e1ff;
+        }
+
+
+        /* Avatar */
+
+        .notification-avatar {
+            width: 48px;
+
+            height: 48px;
+
+            flex-shrink: 0;
+
+            border-radius: 50%;
+
+            background: var(--soft-purple);
+
+            color: var(--primary);
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            font-weight: 700;
+
+            position: relative;
+        }
+
+
+        /* Notification Icon */
+
+        .notification-icon {
+            position: absolute;
+
+            right: -2px;
+
+            bottom: -1px;
+
+            width: 21px;
+
+            height: 21px;
+
+            border-radius: 50%;
+
+            background: var(--primary);
+
+            color: white;
+
+            border: 2px solid white;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            font-size: 9px;
+        }
+
+
+        /* Content */
+
+        .notification-content {
+            flex: 1;
+
+            min-width: 0;
+        }
+
+        .notification-content p {
+            margin: 0;
+
+            color: #3d4054;
+
+            font-size: 13px;
+
+            line-height: 1.6;
+        }
+
+        .notification-content strong {
+            color: var(--text);
+        }
+
+        .notification-time {
+            display: block;
+
+            margin-top: 4px;
+
+            color: var(--muted);
+
+            font-size: 10px;
+        }
+
+
+        /* Dot */
+
+        .unread-dot {
+            width: 8px;
+
+            height: 8px;
+
+            flex-shrink: 0;
+
+            border-radius: 50%;
+
+            background: var(--primary);
+        }
+
+
+        /* =========================
+           EMPTY / LOAD
+        ========================= */
+
+        .load-more {
+            display: block;
+
+            margin: 22px auto 0;
+
+            border: none;
+
+            background: var(--soft-purple);
+
+            color: var(--primary);
+
+            padding: 11px 20px;
+
+            border-radius: 12px;
+
+            font-size: 12px;
+
+            font-weight: 600;
+
+            cursor: pointer;
+        }
+
+
+        /* =========================
+           RESPONSIVE
+        ========================= */
+
+        @media (max-width: 600px) {
+
+            .notification-nav {
+                padding: 12px 14px;
+            }
+
+            .notification-logo {
+                font-size: 20px;
+            }
+
+            .notifications-page {
+                padding: 25px 13px 45px;
+            }
+
+            .notifications-header h1 {
+                font-size: 21px;
+            }
+
+            .notification {
+                padding: 13px;
+
+                border-radius: 15px;
+            }
+
+            .notification-avatar {
+                width: 44px;
+
+                height: 44px;
+            }
+
+            .notification-content p {
+                font-size: 12px;
+            }
+
+            .notification-time {
+                font-size: 9px;
+            }
+
+            .nav-small-btn {
+                padding: 8px 9px;
+            }
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+    <!-- =========================
+         NAVBAR
+    ========================= -->
+
+    <nav class="notification-nav">
+
+        <div class="notification-nav-inner">
+
+            <a
+                href="home.html"
+                class="notification-logo"
+            >
+                Qelvuzo
+            </a>
+
+
+            <div class="notification-nav-right">
+
+                <a
+                    href="home.html"
+                    class="nav-small-btn"
+                >
+                    Home
+                </a>
+
+                <a
+                    href="profile.html"
+                    class="nav-small-btn"
+                >
+                    Profile
+                </a>
+
+            </div>
+
+        </div>
+
+    </nav>
+
+
+
+    <!-- =========================
+         NOTIFICATIONS
+    ========================= -->
+
+    <main class="notifications-page">
+
+
+        <!-- Header -->
+
+        <div class="notifications-header">
+
+            <h1>
+                Notifications
+            </h1>
+
+            <button class="mark-read">
+                Mark all as read
+            </button>
+
+        </div>
+
+
+        <!-- Filters -->
+
+        <div class="notification-filters">
+
+            <button class="filter-btn active">
+                All
+            </button>
+
+            <button class="filter-btn">
+                Mentions
+            </button>
+
+            <button class="filter-btn">
+                Likes
+            </button>
+
+            <button class="filter-btn">
+                Comments
+            </button>
+
+            <button class="filter-btn">
+                Follows
+            </button>
+
+        </div>
+
+
+
+        <!-- Notification List -->
+
+        <div class="notification-list">
+
+
+            <!-- Like -->
+
+            <div class="notification unread">
+
+                <div class="notification-avatar">
+
+                    A
+
+                    <span class="notification-icon">
+                        ♥
+                    </span>
+
+                </div>
+
+
+                <div class="notification-content">
+
+                    <p>
+                        <strong>Arif Hasan</strong>
+                        liked your post.
+                    </p>
+
+                    <span class="notification-time">
+                        5 minutes ago
+                    </span>
+
+                </div>
+
+                <span class="unread-dot"></span>
+
+            </div>
+
+
+            <!-- Comment -->
+
+            <div class="notification unread">
+
+                <div class="notification-avatar">
+
+                    N
+
+                    <span class="notification-icon">
+                        💬
+                    </span>
+
+                </div>
+
+
+                <div class="notification-content">
+
+                    <p>
+                        <strong>Nusrat Jahan</strong>
+                        commented on your post.
+                    </p>
+
+                    <span class="notification-time">
+                        18 minutes ago
+                    </span>
+
+                </div>
+
+                <span class="unread-dot"></span>
+
+            </div>
+
+
+            <!-- Follow -->
+
+            <div class="notification unread">
+
+                <div class="notification-avatar">
+
+                    R
+
+                    <span class="notification-icon">
+                        +
+                    </span>
+
+                </div>
+
+
+                <div class="notification-content">
+
+                    <p>
+                        <strong>Rakib Ahmed</strong>
+                        started following you.
+                    </p>
+
+                    <span class="notification-time">
+                        42 minutes ago
+                    </span>
+
+                </div>
+
+                <span class="unread-dot"></span>
+
+            </div>
+
+
+            <!-- Mention -->
+
+            <div class="notification">
+
+                <div class="notification-avatar">
+
+                    S
+
+                    <span class="notification-icon">
+                        @
+                    </span>
+
+                </div>
+
+
+                <div class="notification-content">
+
+                    <p>
+                        <strong>Sarah Khan</strong>
+                        mentioned you in a post.
+                    </p>
+
+                    <span class="notification-time">
+                        2 hours ago
+                    </span>
+
+                </div>
+
+            </div>
+
+
+            <!-- Like -->
+
+            <div class="notification">
+
+                <div class="notification-avatar">
+
+                    M
+
+                    <span class="notification-icon">
+                        ♥
+                    </span>
+
+                </div>
+
+
+                <div class="notification-content">
+
+                    <p>
+                        <strong>Mahin Rahman</strong>
+                        liked your photo.
+                    </p>
+
+                    <span class="notification-time">
+                        4 hours ago
+                    </span>
+
+                </div>
+
+            </div>
+
+
+            <!-- Comment -->
+
+            <div class="notification">
+
+                <div class="notification-avatar">
+
+                    T
+
+                    <span class="notification-icon">
+                        💬
+                    </span>
+
+                </div>
+
+
+                <div class="notification-content">
+
+                    <p>
+                        <strong>Tanvir Ahmed</strong>
+                        replied to your comment.
+                    </p>
+
+                    <span class="notification-time">
+                        Yesterday
+                    </span>
+
+                </div>
+
+            </div>
+
+
+            <!-- Follow -->
+
+            <div class="notification">
+
+                <div class="notification-avatar">
+
+                    J
+
+                    <span class="notification-icon">
+                        +
+                    </span>
+
+                </div>
+
+
+                <div class="notification-content">
+
+                    <p>
+                        <strong>Jannat Islam</strong>
+                        started following you.
+                    </p>
+
+                    <span class="notification-time">
+                        Yesterday
+                    </span>
+
+                </div>
+
+            </div>
+
+
+        </div>
+
+
+        <button class="load-more">
+            Load more
+        </button>
+
+    </main>
+
+
+</body>
+
+</html>
