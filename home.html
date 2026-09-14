@@ -1,0 +1,1381 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <meta
+        name="description"
+        content="Qelvuzo home feed."
+    >
+
+    <title>Home — Qelvuzo</title>
+
+    <link rel="stylesheet" href="css/style.css">
+
+    <style>
+
+        /* =========================
+           HOME PAGE
+           ========================= */
+
+        body {
+            background: #f6f6fb;
+        }
+
+        .home-navbar {
+            position: sticky;
+            top: 0;
+            z-index: 100;
+
+            background: rgba(255, 255, 255, 0.94);
+
+            border-bottom: 1px solid var(--border);
+
+            backdrop-filter: blur(14px);
+        }
+
+        .home-nav {
+            max-width: 1280px;
+            min-height: 68px;
+
+            margin: auto;
+            padding: 0 20px;
+
+            display: flex;
+            align-items: center;
+            gap: 22px;
+        }
+
+        .home-logo {
+            text-decoration: none;
+
+            color: var(--primary);
+
+            font-size: 24px;
+            font-weight: 800;
+
+            letter-spacing: -0.8px;
+        }
+
+        .search-box {
+            width: 280px;
+
+            position: relative;
+        }
+
+        .search-box input {
+            width: 100%;
+
+            border: 1px solid var(--border);
+
+            background: #f8f8fc;
+
+            border-radius: 13px;
+
+            padding: 11px 15px 11px 40px;
+
+            outline: none;
+
+            font-size: 14px;
+
+            color: var(--text);
+        }
+
+        .search-box span {
+            position: absolute;
+
+            left: 14px;
+            top: 9px;
+
+            color: var(--muted);
+
+            font-size: 17px;
+        }
+
+        .home-nav-actions {
+            margin-left: auto;
+
+            display: flex;
+            align-items: center;
+
+            gap: 10px;
+        }
+
+        .nav-icon {
+            width: 40px;
+            height: 40px;
+
+            border: 0;
+
+            border-radius: 12px;
+
+            background: #f5f4ff;
+
+            color: var(--primary);
+
+            cursor: pointer;
+
+            font-size: 17px;
+
+            transition: 0.2s ease;
+        }
+
+        .nav-icon:hover {
+            background: #eceaff;
+        }
+
+        .mini-profile {
+            width: 40px;
+            height: 40px;
+
+            border-radius: 50%;
+
+            background: var(--soft-purple);
+
+            color: var(--primary);
+
+            display: flex;
+
+            align-items: center;
+            justify-content: center;
+
+            font-weight: 800;
+
+            text-decoration: none;
+        }
+
+
+        /* =========================
+           MAIN LAYOUT
+           ========================= */
+
+        .home-layout {
+            max-width: 1280px;
+
+            margin: auto;
+
+            padding: 28px 20px 60px;
+
+            display: grid;
+
+            grid-template-columns:
+                220px
+                minmax(400px, 650px)
+                250px;
+
+            gap: 25px;
+
+            align-items: start;
+        }
+
+
+        /* =========================
+           LEFT SIDEBAR
+           ========================= */
+
+        .sidebar {
+            position: sticky;
+            top: 90px;
+        }
+
+        .sidebar-card {
+            background: white;
+
+            border: 1px solid var(--border);
+
+            border-radius: 18px;
+
+            padding: 10px;
+
+            box-shadow:
+                0 8px 25px rgba(55, 48, 124, 0.04);
+        }
+
+        .sidebar-link {
+            width: 100%;
+
+            display: flex;
+
+            align-items: center;
+
+            gap: 12px;
+
+            padding: 12px;
+
+            border-radius: 12px;
+
+            text-decoration: none;
+
+            color: var(--text);
+
+            font-size: 14px;
+
+            font-weight: 600;
+
+            transition: 0.2s ease;
+        }
+
+        .sidebar-link:hover,
+        .sidebar-link.active {
+            background: var(--soft-purple);
+
+            color: var(--primary);
+        }
+
+        .sidebar-icon {
+            width: 28px;
+            height: 28px;
+
+            display: flex;
+
+            align-items: center;
+            justify-content: center;
+
+            border-radius: 9px;
+
+            background: #f4f3fa;
+
+            color: var(--primary);
+
+            font-size: 13px;
+        }
+
+        .sidebar-link.active .sidebar-icon {
+            background: white;
+        }
+
+
+        /* =========================
+           FEED
+           ========================= */
+
+        .feed {
+            min-width: 0;
+        }
+
+
+        /* =========================
+           STORIES
+           ========================= */
+
+        .stories {
+            display: flex;
+
+            gap: 12px;
+
+            overflow-x: auto;
+
+            padding: 4px 2px 8px;
+
+            scrollbar-width: none;
+        }
+
+        .stories::-webkit-scrollbar {
+            display: none;
+        }
+
+        .story {
+            min-width: 105px;
+            height: 150px;
+
+            background: white;
+
+            border: 1px solid var(--border);
+
+            border-radius: 17px;
+
+            padding: 9px;
+
+            position: relative;
+
+            overflow: hidden;
+
+            cursor: pointer;
+
+            box-shadow:
+                0 7px 20px rgba(55, 48, 124, 0.05);
+        }
+
+        .story-background {
+            position: absolute;
+
+            inset: 0;
+
+            background:
+                linear-gradient(
+                    145deg,
+                    #eeeaff,
+                    #ffffff
+                );
+        }
+
+        .story-avatar {
+            position: relative;
+
+            width: 38px;
+            height: 38px;
+
+            border-radius: 50%;
+
+            background: white;
+
+            border: 3px solid var(--primary);
+
+            color: var(--primary);
+
+            display: flex;
+
+            align-items: center;
+            justify-content: center;
+
+            font-weight: 800;
+
+            z-index: 2;
+        }
+
+        .story-name {
+            position: absolute;
+
+            bottom: 10px;
+            left: 10px;
+            right: 10px;
+
+            color: var(--text);
+
+            font-size: 12px;
+
+            font-weight: 700;
+
+            z-index: 2;
+        }
+
+        .story-add {
+            position: absolute;
+
+            bottom: 33px;
+            left: 50%;
+
+            transform: translateX(-50%);
+
+            width: 30px;
+            height: 30px;
+
+            border-radius: 50%;
+
+            background: var(--primary);
+
+            color: white;
+
+            display: flex;
+
+            align-items: center;
+            justify-content: center;
+
+            font-size: 20px;
+
+            border: 3px solid white;
+
+            z-index: 3;
+        }
+
+
+        /* =========================
+           CREATE POST
+           ========================= */
+
+        .create-post {
+            background: white;
+
+            border: 1px solid var(--border);
+
+            border-radius: 18px;
+
+            padding: 18px;
+
+            margin-top: 18px;
+
+            box-shadow:
+                0 8px 25px rgba(55, 48, 124, 0.04);
+        }
+
+        .create-top {
+            display: flex;
+
+            gap: 12px;
+
+            align-items: center;
+        }
+
+        .user-avatar {
+            width: 43px;
+            height: 43px;
+
+            flex-shrink: 0;
+
+            border-radius: 50%;
+
+            background: var(--soft-purple);
+
+            color: var(--primary);
+
+            display: flex;
+
+            align-items: center;
+            justify-content: center;
+
+            font-weight: 800;
+        }
+
+        .post-input {
+            flex: 1;
+
+            border: 1px solid var(--border);
+
+            background: #fafaff;
+
+            border-radius: 13px;
+
+            padding: 12px 15px;
+
+            color: var(--muted);
+
+            cursor: pointer;
+
+            font-size: 14px;
+        }
+
+        .create-actions {
+            display: grid;
+
+            grid-template-columns:
+                repeat(3, 1fr);
+
+            gap: 8px;
+
+            margin-top: 15px;
+
+            padding-top: 14px;
+
+            border-top: 1px solid var(--border);
+        }
+
+        .create-action {
+            border: 0;
+
+            background: transparent;
+
+            border-radius: 11px;
+
+            padding: 9px;
+
+            color: var(--muted);
+
+            font-size: 13px;
+
+            font-weight: 600;
+
+            cursor: pointer;
+
+            transition: 0.2s ease;
+        }
+
+        .create-action:hover {
+            background: #f6f5ff;
+
+            color: var(--primary);
+        }
+
+
+        /* =========================
+           POST CARD
+           ========================= */
+
+        .post-card {
+            background: white;
+
+            border: 1px solid var(--border);
+
+            border-radius: 18px;
+
+            padding: 20px;
+
+            margin-top: 18px;
+
+            box-shadow:
+                0 8px 25px rgba(55, 48, 124, 0.04);
+        }
+
+        .post-header {
+            display: flex;
+
+            align-items: center;
+
+            gap: 11px;
+        }
+
+        .post-user {
+            flex: 1;
+        }
+
+        .post-user strong {
+            display: block;
+
+            font-size: 14px;
+        }
+
+        .post-user small {
+            display: block;
+
+            color: var(--muted);
+
+            font-size: 12px;
+        }
+
+        .post-menu {
+            border: 0;
+
+            background: transparent;
+
+            color: var(--muted);
+
+            cursor: pointer;
+
+            font-size: 17px;
+        }
+
+        .post-content {
+            padding: 18px 0 8px;
+        }
+
+        .post-content p {
+            color: #45485c;
+
+            font-size: 14px;
+
+            line-height: 1.7;
+        }
+
+        .post-image {
+            width: 100%;
+
+            min-height: 230px;
+
+            margin-top: 12px;
+
+            border-radius: 14px;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #f0efff,
+                    #fafaff
+                );
+
+            display: flex;
+
+            align-items: center;
+            justify-content: center;
+
+            color: var(--primary);
+
+            font-weight: 700;
+        }
+
+        .post-stats {
+            display: flex;
+
+            justify-content: space-between;
+
+            color: var(--muted);
+
+            font-size: 12px;
+
+            padding: 13px 3px 10px;
+        }
+
+        .post-actions {
+            display: grid;
+
+            grid-template-columns:
+                repeat(3, 1fr);
+
+            border-top: 1px solid var(--border);
+
+            padding-top: 8px;
+        }
+
+        .post-action {
+            border: 0;
+
+            background: transparent;
+
+            color: var(--muted);
+
+            padding: 10px;
+
+            border-radius: 10px;
+
+            cursor: pointer;
+
+            font-size: 13px;
+
+            font-weight: 600;
+
+            transition: 0.2s ease;
+        }
+
+        .post-action:hover {
+            background: #f5f4ff;
+
+            color: var(--primary);
+        }
+
+
+        /* =========================
+           RIGHT SIDEBAR
+           ========================= */
+
+        .right-sidebar {
+            position: sticky;
+
+            top: 90px;
+        }
+
+        .right-card {
+            background: white;
+
+            border: 1px solid var(--border);
+
+            border-radius: 18px;
+
+            padding: 18px;
+
+            margin-bottom: 18px;
+        }
+
+        .right-card h3 {
+            font-size: 15px;
+
+            margin-bottom: 15px;
+        }
+
+        .person {
+            display: flex;
+
+            align-items: center;
+
+            gap: 10px;
+
+            margin-bottom: 14px;
+        }
+
+        .person:last-child {
+            margin-bottom: 0;
+        }
+
+        .person-info {
+            flex: 1;
+        }
+
+        .person-info strong {
+            display: block;
+
+            font-size: 13px;
+        }
+
+        .person-info small {
+            color: var(--muted);
+
+            font-size: 11px;
+        }
+
+        .follow-btn {
+            border: 0;
+
+            background: var(--soft-purple);
+
+            color: var(--primary);
+
+            border-radius: 9px;
+
+            padding: 7px 10px;
+
+            font-size: 11px;
+
+            font-weight: 700;
+
+            cursor: pointer;
+        }
+
+
+        /* =========================
+           RESPONSIVE
+           ========================= */
+
+        @media (max-width: 1050px) {
+
+            .home-layout {
+                grid-template-columns:
+                    75px
+                    minmax(400px, 1fr)
+                    220px;
+            }
+
+            .sidebar-link span:last-child {
+                display: none;
+            }
+
+            .sidebar-link {
+                justify-content: center;
+            }
+        }
+
+        @media (max-width: 850px) {
+
+            .home-layout {
+                display: block;
+
+                max-width: 680px;
+            }
+
+            .sidebar,
+            .right-sidebar {
+                display: none;
+            }
+
+            .search-box {
+                flex: 1;
+
+                max-width: 300px;
+            }
+        }
+
+        @media (max-width: 550px) {
+
+            .home-nav {
+                padding: 0 14px;
+
+                gap: 10px;
+            }
+
+            .home-logo {
+                font-size: 21px;
+            }
+
+            .search-box {
+                width: auto;
+            }
+
+            .search-box input {
+                padding-left: 35px;
+            }
+
+            .nav-icon {
+                display: none;
+            }
+
+            .home-layout {
+                padding: 15px 12px 40px;
+            }
+
+            .story {
+                min-width: 92px;
+                height: 135px;
+            }
+
+            .create-post,
+            .post-card {
+                border-radius: 15px;
+
+                padding: 15px;
+            }
+
+            .post-image {
+                min-height: 190px;
+            }
+        }
+
+    </style>
+</head>
+
+
+<body>
+
+
+    <!-- =========================
+         NAVBAR
+         ========================= -->
+
+    <header class="home-navbar">
+
+        <nav class="home-nav">
+
+            <a
+                href="home.html"
+                class="home-logo"
+            >
+                Qelvuzo
+            </a>
+
+
+            <div class="search-box">
+
+                <span>⌕</span>
+
+                <input
+                    type="search"
+                    placeholder="Search Qelvuzo"
+                >
+
+            </div>
+
+
+            <div class="home-nav-actions">
+
+                <button class="nav-icon">
+                    ♡
+                </button>
+
+                <button class="nav-icon">
+                    ◇
+                </button>
+
+                <a
+                    href="profile.html"
+                    class="mini-profile"
+                >
+                    Q
+                </a>
+
+            </div>
+
+        </nav>
+
+    </header>
+
+
+
+    <!-- =========================
+         HOME LAYOUT
+         ========================= -->
+
+    <main class="home-layout">
+
+
+        <!-- =========================
+             LEFT SIDEBAR
+             ========================= -->
+
+        <aside class="sidebar">
+
+            <div class="sidebar-card">
+
+                <a
+                    href="home.html"
+                    class="sidebar-link active"
+                >
+
+                    <div class="sidebar-icon">
+                        ⌂
+                    </div>
+
+                    <span>
+                        Home
+                    </span>
+
+                </a>
+
+
+                <a
+                    href="explore.html"
+                    class="sidebar-link"
+                >
+
+                    <div class="sidebar-icon">
+                        ⌕
+                    </div>
+
+                    <span>
+                        Explore
+                    </span>
+
+                </a>
+
+
+                <a
+                    href="profile.html"
+                    class="sidebar-link"
+                >
+
+                    <div class="sidebar-icon">
+                        ◯
+                    </div>
+
+                    <span>
+                        Profile
+                    </span>
+
+                </a>
+
+
+                <a
+                    href="messages.html"
+                    class="sidebar-link"
+                >
+
+                    <div class="sidebar-icon">
+                        ◇
+                    </div>
+
+                    <span>
+                        Messages
+                    </span>
+
+                </a>
+
+
+                <a
+                    href="notifications.html"
+                    class="sidebar-link"
+                >
+
+                    <div class="sidebar-icon">
+                        ♡
+                    </div>
+
+                    <span>
+                        Notifications
+                    </span>
+
+                </a>
+
+
+                <a
+                    href="settings.html"
+                    class="sidebar-link"
+                >
+
+                    <div class="sidebar-icon">
+                        ⚙
+                    </div>
+
+                    <span>
+                        Settings
+                    </span>
+
+                </a>
+
+            </div>
+
+        </aside>
+
+
+
+        <!-- =========================
+             FEED
+             ========================= -->
+
+        <section class="feed">
+
+
+            <!-- Stories -->
+
+            <div class="stories">
+
+                <div class="story">
+
+                    <div class="story-background"></div>
+
+                    <div class="story-avatar">
+                        Q
+                    </div>
+
+                    <div class="story-add">
+                        +
+                    </div>
+
+                    <div class="story-name">
+                        Your story
+                    </div>
+
+                </div>
+
+
+                <div class="story">
+
+                    <div class="story-background"></div>
+
+                    <div class="story-avatar">
+                        A
+                    </div>
+
+                    <div class="story-name">
+                        Alex
+                    </div>
+
+                </div>
+
+
+                <div class="story">
+
+                    <div class="story-background"></div>
+
+                    <div class="story-avatar">
+                        M
+                    </div>
+
+                    <div class="story-name">
+                        Maya
+                    </div>
+
+                </div>
+
+
+                <div class="story">
+
+                    <div class="story-background"></div>
+
+                    <div class="story-avatar">
+                        R
+                    </div>
+
+                    <div class="story-name">
+                        Ryan
+                    </div>
+
+                </div>
+
+
+                <div class="story">
+
+                    <div class="story-background"></div>
+
+                    <div class="story-avatar">
+                        S
+                    </div>
+
+                    <div class="story-name">
+                        Sara
+                    </div>
+
+                </div>
+
+            </div>
+
+
+
+            <!-- Create Post -->
+
+            <div class="create-post">
+
+                <div class="create-top">
+
+                    <div class="user-avatar">
+                        Q
+                    </div>
+
+                    <div class="post-input">
+                        What's on your mind?
+                    </div>
+
+                </div>
+
+
+                <div class="create-actions">
+
+                    <button class="create-action">
+                        Photo
+                    </button>
+
+                    <button class="create-action">
+                        Video
+                    </button>
+
+                    <button class="create-action">
+                        Feeling
+                    </button>
+
+                </div>
+
+            </div>
+
+
+
+            <!-- =========================
+                 POST 1
+                 ========================= -->
+
+            <article class="post-card">
+
+                <div class="post-header">
+
+                    <div class="user-avatar">
+                        A
+                    </div>
+
+                    <div class="post-user">
+
+                        <strong>
+                            Alex Morgan
+                        </strong>
+
+                        <small>
+                            12 min ago · Public
+                        </small>
+
+                    </div>
+
+                    <button class="post-menu">
+                        •••
+                    </button>
+
+                </div>
+
+
+                <div class="post-content">
+
+                    <p>
+                        Exploring new ideas and building something
+                        exciting today. What are you working on?
+                    </p>
+
+                    <div class="post-image">
+                        Qelvuzo Post
+                    </div>
+
+                </div>
+
+
+                <div class="post-stats">
+
+                    <span>
+                        24 likes
+                    </span>
+
+                    <span>
+                        6 comments · 2 shares
+                    </span>
+
+                </div>
+
+
+                <div class="post-actions">
+
+                    <button class="post-action">
+                        ♡ Like
+                    </button>
+
+                    <button class="post-action">
+                        ○ Comment
+                    </button>
+
+                    <button class="post-action">
+                        ↗ Share
+                    </button>
+
+                </div>
+
+            </article>
+
+
+
+            <!-- =========================
+                 POST 2
+                 ========================= -->
+
+            <article class="post-card">
+
+                <div class="post-header">
+
+                    <div class="user-avatar">
+                        M
+                    </div>
+
+                    <div class="post-user">
+
+                        <strong>
+                            Maya Wilson
+                        </strong>
+
+                        <small>
+                            38 min ago · Public
+                        </small>
+
+                    </div>
+
+                    <button class="post-menu">
+                        •••
+                    </button>
+
+                </div>
+
+
+                <div class="post-content">
+
+                    <p>
+                        Small progress is still progress.
+                        Keep going.
+                    </p>
+
+                </div>
+
+
+                <div class="post-stats">
+
+                    <span>
+                        41 likes
+                    </span>
+
+                    <span>
+                        9 comments
+                    </span>
+
+                </div>
+
+
+                <div class="post-actions">
+
+                    <button class="post-action">
+                        ♡ Like
+                    </button>
+
+                    <button class="post-action">
+                        ○ Comment
+                    </button>
+
+                    <button class="post-action">
+                        ↗ Share
+                    </button>
+
+                </div>
+
+            </article>
+
+        </section>
+
+
+
+        <!-- =========================
+             RIGHT SIDEBAR
+             ========================= -->
+
+        <aside class="right-sidebar">
+
+
+            <div class="right-card">
+
+                <h3>
+                    People you may know
+                </h3>
+
+
+                <div class="person">
+
+                    <div class="user-avatar">
+                        J
+                    </div>
+
+                    <div class="person-info">
+
+                        <strong>
+                            Jamie
+                        </strong>
+
+                        <small>
+                            3 mutual friends
+                        </small>
+
+                    </div>
+
+                    <button class="follow-btn">
+                        Follow
+                    </button>
+
+                </div>
+
+
+                <div class="person">
+
+                    <div class="user-avatar">
+                        S
+                    </div>
+
+                    <div class="person-info">
+
+                        <strong>
+                            Sofia
+                        </strong>
+
+                        <small>
+                            5 mutual friends
+                        </small>
+
+                    </div>
+
+                    <button class="follow-btn">
+                        Follow
+                    </button>
+
+                </div>
+
+
+                <div class="person">
+
+                    <div class="user-avatar">
+                        D
+                    </div>
+
+                    <div class="person-info">
+
+                        <strong>
+                            Daniel
+                        </strong>
+
+                        <small>
+                            2 mutual friends
+                        </small>
+
+                    </div>
+
+                    <button class="follow-btn">
+                        Follow
+                    </button>
+
+                </div>
+
+            </div>
+
+
+            <div class="right-card">
+
+                <h3>
+                    Qelvuzo
+                </h3>
+
+                <p
+                    style="
+                        color: var(--muted);
+                        font-size: 12px;
+                        line-height: 1.7;
+                    "
+                >
+                    Connect with people,
+                    discover communities and
+                    share what matters to you.
+                </p>
+
+            </div>
+
+        </aside>
+
+    </main>
+
+</body>
+
+</html>
