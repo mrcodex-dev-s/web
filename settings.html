@@ -1,0 +1,945 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Settings — Qelvuzo</title>
+
+    <link
+        rel="stylesheet"
+        href="css/style.css"
+    >
+
+    <style>
+
+        body {
+            background: #f8f8fc;
+        }
+
+        /* =========================
+           NAVBAR
+        ========================= */
+
+        .settings-nav {
+            background: #ffffff;
+
+            border-bottom: 1px solid var(--border);
+
+            padding: 14px 20px;
+
+            position: sticky;
+            top: 0;
+
+            z-index: 100;
+        }
+
+        .settings-nav-inner {
+            max-width: 1100px;
+
+            margin: auto;
+
+            display: flex;
+            align-items: center;
+
+            justify-content: space-between;
+        }
+
+        .settings-logo {
+            color: var(--primary);
+
+            text-decoration: none;
+
+            font-size: 23px;
+
+            font-weight: 800;
+        }
+
+        .back-home {
+            text-decoration: none;
+
+            color: var(--text);
+
+            background: #f5f5fa;
+
+            padding: 9px 14px;
+
+            border-radius: 10px;
+
+            font-size: 12px;
+
+            font-weight: 600;
+        }
+
+        .back-home:hover {
+            background: var(--soft-purple);
+
+            color: var(--primary);
+        }
+
+
+        /* =========================
+           PAGE
+        ========================= */
+
+        .settings-page {
+            max-width: 1000px;
+
+            margin: auto;
+
+            padding: 35px 20px 60px;
+        }
+
+        .settings-title {
+            margin-bottom: 25px;
+        }
+
+        .settings-title h1 {
+            margin: 0;
+
+            color: var(--text);
+
+            font-size: 26px;
+        }
+
+        .settings-title p {
+            margin: 7px 0 0;
+
+            color: var(--muted);
+
+            font-size: 13px;
+        }
+
+
+        /* =========================
+           LAYOUT
+        ========================= */
+
+        .settings-layout {
+            display: grid;
+
+            grid-template-columns: 230px 1fr;
+
+            gap: 20px;
+        }
+
+
+        /* =========================
+           SIDEBAR
+        ========================= */
+
+        .settings-sidebar {
+            background: #ffffff;
+
+            border: 1px solid var(--border);
+
+            border-radius: 18px;
+
+            padding: 10px;
+
+            height: fit-content;
+
+            box-shadow: var(--shadow);
+        }
+
+        .settings-menu {
+            width: 100%;
+
+            border: none;
+
+            background: transparent;
+
+            text-align: left;
+
+            padding: 12px 13px;
+
+            border-radius: 11px;
+
+            color: var(--muted);
+
+            cursor: pointer;
+
+            font-size: 12px;
+
+            font-weight: 600;
+
+            margin-bottom: 3px;
+        }
+
+        .settings-menu:hover {
+            background: #fafaff;
+
+            color: var(--primary);
+        }
+
+        .settings-menu.active {
+            background: var(--soft-purple);
+
+            color: var(--primary);
+        }
+
+
+        /* =========================
+           CONTENT
+        ========================= */
+
+        .settings-content {
+            display: flex;
+
+            flex-direction: column;
+
+            gap: 18px;
+        }
+
+        .settings-card {
+            background: #ffffff;
+
+            border: 1px solid var(--border);
+
+            border-radius: 18px;
+
+            padding: 21px;
+
+            box-shadow: var(--shadow);
+        }
+
+        .settings-card-header {
+            margin-bottom: 18px;
+        }
+
+        .settings-card-header h2 {
+            margin: 0;
+
+            color: var(--text);
+
+            font-size: 17px;
+        }
+
+        .settings-card-header p {
+            margin: 5px 0 0;
+
+            color: var(--muted);
+
+            font-size: 11px;
+
+            line-height: 1.6;
+        }
+
+
+        /* =========================
+           PROFILE
+        ========================= */
+
+        .profile-setting {
+            display: flex;
+
+            align-items: center;
+
+            justify-content: space-between;
+
+            gap: 15px;
+
+            padding: 13px 0;
+
+            border-top: 1px solid var(--border);
+        }
+
+        .profile-setting:first-of-type {
+            border-top: none;
+        }
+
+        .profile-setting-info {
+            min-width: 0;
+        }
+
+        .profile-setting-info h3 {
+            margin: 0;
+
+            color: var(--text);
+
+            font-size: 13px;
+        }
+
+        .profile-setting-info p {
+            margin: 4px 0 0;
+
+            color: var(--muted);
+
+            font-size: 11px;
+        }
+
+        .edit-btn {
+            border: none;
+
+            background: var(--soft-purple);
+
+            color: var(--primary);
+
+            padding: 8px 13px;
+
+            border-radius: 9px;
+
+            cursor: pointer;
+
+            font-size: 11px;
+
+            font-weight: 600;
+        }
+
+
+        /* =========================
+           TOGGLE
+        ========================= */
+
+        .toggle {
+            width: 42px;
+
+            height: 23px;
+
+            background: #dcdce7;
+
+            border-radius: 20px;
+
+            position: relative;
+
+            cursor: pointer;
+
+            flex-shrink: 0;
+        }
+
+        .toggle::after {
+            content: "";
+
+            position: absolute;
+
+            width: 17px;
+
+            height: 17px;
+
+            background: white;
+
+            border-radius: 50%;
+
+            left: 3px;
+
+            top: 3px;
+
+            transition: 0.2s;
+
+            box-shadow: 0 2px 5px rgba(0,0,0,0.12);
+        }
+
+        .toggle.active {
+            background: var(--primary);
+        }
+
+        .toggle.active::after {
+            left: 22px;
+        }
+
+
+        /* =========================
+           SELECT
+        ========================= */
+
+        .settings-select {
+            border: 1px solid var(--border);
+
+            background: #f8f8fc;
+
+            color: var(--text);
+
+            border-radius: 9px;
+
+            padding: 8px 11px;
+
+            outline: none;
+
+            font-size: 11px;
+        }
+
+
+        /* =========================
+           DANGER ZONE
+        ========================= */
+
+        .danger-card {
+            border-color: #f0dada;
+        }
+
+        .danger-card h2 {
+            color: #b94a4a;
+        }
+
+        .danger-btn {
+            border: none;
+
+            background: #fff0f0;
+
+            color: #c04c4c;
+
+            padding: 9px 14px;
+
+            border-radius: 9px;
+
+            cursor: pointer;
+
+            font-size: 11px;
+
+            font-weight: 600;
+        }
+
+
+        /* =========================
+           RESPONSIVE
+        ========================= */
+
+        @media (max-width: 750px) {
+
+            .settings-page {
+                padding: 25px 13px 45px;
+            }
+
+            .settings-layout {
+                grid-template-columns: 1fr;
+            }
+
+            .settings-sidebar {
+                display: flex;
+
+                overflow-x: auto;
+
+                gap: 5px;
+
+                padding: 7px;
+            }
+
+            .settings-menu {
+                white-space: nowrap;
+
+                width: auto;
+
+                margin: 0;
+            }
+        }
+
+        @media (max-width: 500px) {
+
+            .settings-nav {
+                padding: 12px 14px;
+            }
+
+            .settings-logo {
+                font-size: 20px;
+            }
+
+            .back-home {
+                padding: 8px 10px;
+            }
+
+            .settings-title h1 {
+                font-size: 22px;
+            }
+
+            .settings-card {
+                padding: 17px;
+            }
+
+            .profile-setting {
+                align-items: flex-start;
+            }
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+    <!-- =========================
+         NAVBAR
+    ========================= -->
+
+    <nav class="settings-nav">
+
+        <div class="settings-nav-inner">
+
+            <a
+                href="home.html"
+                class="settings-logo"
+            >
+                Qelvuzo
+            </a>
+
+            <a
+                href="home.html"
+                class="back-home"
+            >
+                ← Home
+            </a>
+
+        </div>
+
+    </nav>
+
+
+
+    <!-- =========================
+         SETTINGS PAGE
+    ========================= -->
+
+    <main class="settings-page">
+
+
+        <div class="settings-title">
+
+            <h1>
+                Settings
+            </h1>
+
+            <p>
+                Manage your Qelvuzo account and preferences.
+            </p>
+
+        </div>
+
+
+
+        <div class="settings-layout">
+
+
+            <!-- =========================
+                 SIDEBAR
+            ========================= -->
+
+            <aside class="settings-sidebar">
+
+                <button class="settings-menu active">
+                    Account
+                </button>
+
+                <button class="settings-menu">
+                    Privacy
+                </button>
+
+                <button class="settings-menu">
+                    Notifications
+                </button>
+
+                <button class="settings-menu">
+                    Appearance
+                </button>
+
+                <button class="settings-menu">
+                    Security
+                </button>
+
+                <button class="settings-menu">
+                    Help & Support
+                </button>
+
+            </aside>
+
+
+
+            <!-- =========================
+                 CONTENT
+            ========================= -->
+
+            <section class="settings-content">
+
+
+                <!-- Account -->
+
+                <div class="settings-card">
+
+                    <div class="settings-card-header">
+
+                        <h2>
+                            Account information
+                        </h2>
+
+                        <p>
+                            Manage the basic information connected
+                            to your Qelvuzo account.
+                        </p>
+
+                    </div>
+
+
+                    <div class="profile-setting">
+
+                        <div class="profile-setting-info">
+
+                            <h3>
+                                Name
+                            </h3>
+
+                            <p>
+                                Qelvuzo User
+                            </p>
+
+                        </div>
+
+                        <button class="edit-btn">
+                            Edit
+                        </button>
+
+                    </div>
+
+
+                    <div class="profile-setting">
+
+                        <div class="profile-setting-info">
+
+                            <h3>
+                                Username
+                            </h3>
+
+                            <p>
+                                @qelvuzo_user
+                            </p>
+
+                        </div>
+
+                        <button class="edit-btn">
+                            Edit
+                        </button>
+
+                    </div>
+
+
+                    <div class="profile-setting">
+
+                        <div class="profile-setting-info">
+
+                            <h3>
+                                Email
+                            </h3>
+
+                            <p>
+                                user@example.com
+                            </p>
+
+                        </div>
+
+                        <button class="edit-btn">
+                            Change
+                        </button>
+
+                    </div>
+
+                </div>
+
+
+
+                <!-- Privacy -->
+
+                <div class="settings-card">
+
+                    <div class="settings-card-header">
+
+                        <h2>
+                            Privacy
+                        </h2>
+
+                        <p>
+                            Control who can interact with your account.
+                        </p>
+
+                    </div>
+
+
+                    <div class="profile-setting">
+
+                        <div class="profile-setting-info">
+
+                            <h3>
+                                Private account
+                            </h3>
+
+                            <p>
+                                Only approved people can follow you.
+                            </p>
+
+                        </div>
+
+                        <div class="toggle"></div>
+
+                    </div>
+
+
+                    <div class="profile-setting">
+
+                        <div class="profile-setting-info">
+
+                            <h3>
+                                Show online status
+                            </h3>
+
+                            <p>
+                                Let people know when you're active.
+                            </p>
+
+                        </div>
+
+                        <div class="toggle active"></div>
+
+                    </div>
+
+                </div>
+
+
+
+                <!-- Notifications -->
+
+                <div class="settings-card">
+
+                    <div class="settings-card-header">
+
+                        <h2>
+                            Notifications
+                        </h2>
+
+                        <p>
+                            Choose which notifications you receive.
+                        </p>
+
+                    </div>
+
+
+                    <div class="profile-setting">
+
+                        <div class="profile-setting-info">
+
+                            <h3>
+                                Push notifications
+                            </h3>
+
+                            <p>
+                                Receive notifications on your device.
+                            </p>
+
+                        </div>
+
+                        <div class="toggle active"></div>
+
+                    </div>
+
+
+                    <div class="profile-setting">
+
+                        <div class="profile-setting-info">
+
+                            <h3>
+                                Email notifications
+                            </h3>
+
+                            <p>
+                                Receive important updates by email.
+                            </p>
+
+                        </div>
+
+                        <div class="toggle"></div>
+
+                    </div>
+
+                </div>
+
+
+
+                <!-- Appearance -->
+
+                <div class="settings-card">
+
+                    <div class="settings-card-header">
+
+                        <h2>
+                            Appearance
+                        </h2>
+
+                        <p>
+                            Customize how Qelvuzo looks for you.
+                        </p>
+
+                    </div>
+
+
+                    <div class="profile-setting">
+
+                        <div class="profile-setting-info">
+
+                            <h3>
+                                Theme
+                            </h3>
+
+                            <p>
+                                Choose your preferred interface theme.
+                            </p>
+
+                        </div>
+
+
+                        <select class="settings-select">
+
+                            <option>
+                                Softy Light
+                            </option>
+
+                            <option>
+                                Softy Dark
+                            </option>
+
+                            <option>
+                                System
+                            </option>
+
+                        </select>
+
+                    </div>
+
+                </div>
+
+
+
+                <!-- Security -->
+
+                <div class="settings-card">
+
+                    <div class="settings-card-header">
+
+                        <h2>
+                            Security
+                        </h2>
+
+                        <p>
+                            Keep your account secure.
+                        </p>
+
+                    </div>
+
+
+                    <div class="profile-setting">
+
+                        <div class="profile-setting-info">
+
+                            <h3>
+                                Password
+                            </h3>
+
+                            <p>
+                                Change your account password.
+                            </p>
+
+                        </div>
+
+                        <button class="edit-btn">
+                            Change
+                        </button>
+
+                    </div>
+
+
+                    <div class="profile-setting">
+
+                        <div class="profile-setting-info">
+
+                            <h3>
+                                Two-factor authentication
+                            </h3>
+
+                            <p>
+                                Add an extra layer of account security.
+                            </p>
+
+                        </div>
+
+                        <button class="edit-btn">
+                            Set up
+                        </button>
+
+                    </div>
+
+                </div>
+
+
+
+                <!-- Danger Zone -->
+
+                <div class="settings-card danger-card">
+
+                    <div class="settings-card-header">
+
+                        <h2>
+                            Account actions
+                        </h2>
+
+                        <p>
+                            These actions can affect your account.
+                        </p>
+
+                    </div>
+
+
+                    <div class="profile-setting">
+
+                        <div class="profile-setting-info">
+
+                            <h3>
+                                Log out
+                            </h3>
+
+                            <p>
+                                Sign out from this device.
+                            </p>
+
+                        </div>
+
+                        <button class="danger-btn">
+                            Log out
+                        </button>
+
+                    </div>
+
+
+                    <div class="profile-setting">
+
+                        <div class="profile-setting-info">
+
+                            <h3>
+                                Deactivate account
+                            </h3>
+
+                            <p>
+                                Temporarily disable your account.
+                            </p>
+
+                        </div>
+
+                        <button class="danger-btn">
+                            Deactivate
+                        </button>
+
+                    </div>
+
+                </div>
+
+
+            </section>
+
+        </div>
+
+    </main>
+
+
+</body>
+
+</html>
