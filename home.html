@@ -65,7 +65,6 @@
 
         .search-box {
             width: 280px;
-
             position: relative;
         }
 
@@ -85,6 +84,10 @@
             font-size: 14px;
 
             color: var(--text);
+        }
+
+        .search-box input:focus {
+            border-color: var(--primary);
         }
 
         .search-box span {
@@ -450,6 +453,10 @@
             font-size: 14px;
         }
 
+        .post-input:hover {
+            border-color: var(--primary);
+        }
+
         .create-actions {
             display: grid;
 
@@ -636,6 +643,12 @@
             color: var(--primary);
         }
 
+        .post-action.liked {
+            background: var(--soft-purple);
+
+            color: var(--primary);
+        }
+
 
         /* =========================
            RIGHT SIDEBAR
@@ -711,6 +724,12 @@
             font-weight: 700;
 
             cursor: pointer;
+        }
+
+        .follow-btn.following {
+            background: var(--primary);
+
+            color: white;
         }
 
 
@@ -830,6 +849,7 @@
 
                 <input
                     type="search"
+                    class="search-input"
                     placeholder="Search Qelvuzo"
                 >
 
@@ -838,11 +858,17 @@
 
             <div class="home-nav-actions">
 
-                <button class="nav-icon">
+                <button
+                    class="nav-icon"
+                    type="button"
+                >
                     ♡
                 </button>
 
-                <button class="nav-icon">
+                <button
+                    class="nav-icon"
+                    type="button"
+                >
                     ◇
                 </button>
 
@@ -984,7 +1010,9 @@
         <section class="feed">
 
 
-            <!-- Stories -->
+            <!-- =========================
+                 STORIES
+                 ========================= -->
 
             <div class="stories">
 
@@ -1070,7 +1098,9 @@
 
 
 
-            <!-- Create Post -->
+            <!-- =========================
+                 CREATE POST
+                 ========================= -->
 
             <div class="create-post">
 
@@ -1080,7 +1110,11 @@
                         Q
                     </div>
 
-                    <div class="post-input">
+                    <div
+                        class="post-input"
+                        role="button"
+                        tabindex="0"
+                    >
                         What's on your mind?
                     </div>
 
@@ -1089,15 +1123,24 @@
 
                 <div class="create-actions">
 
-                    <button class="create-action">
+                    <button
+                        class="create-action"
+                        type="button"
+                    >
                         Photo
                     </button>
 
-                    <button class="create-action">
+                    <button
+                        class="create-action"
+                        type="button"
+                    >
                         Video
                     </button>
 
-                    <button class="create-action">
+                    <button
+                        class="create-action"
+                        type="button"
+                    >
                         Feeling
                     </button>
 
@@ -1111,7 +1154,7 @@
                  POST 1
                  ========================= -->
 
-            <article class="post-card">
+            <article class="post-card post">
 
                 <div class="post-header">
 
@@ -1131,7 +1174,10 @@
 
                     </div>
 
-                    <button class="post-menu">
+                    <button
+                        class="post-menu"
+                        type="button"
+                    >
                         •••
                     </button>
 
@@ -1155,7 +1201,8 @@
                 <div class="post-stats">
 
                     <span>
-                        24 likes
+                        <span class="like-count">24</span>
+                        likes
                     </span>
 
                     <span>
@@ -1167,15 +1214,24 @@
 
                 <div class="post-actions">
 
-                    <button class="post-action">
+                    <button
+                        class="post-action like-btn"
+                        type="button"
+                    >
                         ♡ Like
                     </button>
 
-                    <button class="post-action">
+                    <button
+                        class="post-action comment-btn"
+                        type="button"
+                    >
                         ○ Comment
                     </button>
 
-                    <button class="post-action">
+                    <button
+                        class="post-action share-btn"
+                        type="button"
+                    >
                         ↗ Share
                     </button>
 
@@ -1189,7 +1245,7 @@
                  POST 2
                  ========================= -->
 
-            <article class="post-card">
+            <article class="post-card post">
 
                 <div class="post-header">
 
@@ -1209,7 +1265,10 @@
 
                     </div>
 
-                    <button class="post-menu">
+                    <button
+                        class="post-menu"
+                        type="button"
+                    >
                         •••
                     </button>
 
@@ -1229,7 +1288,8 @@
                 <div class="post-stats">
 
                     <span>
-                        41 likes
+                        <span class="like-count">41</span>
+                        likes
                     </span>
 
                     <span>
@@ -1241,15 +1301,24 @@
 
                 <div class="post-actions">
 
-                    <button class="post-action">
+                    <button
+                        class="post-action like-btn"
+                        type="button"
+                    >
                         ♡ Like
                     </button>
 
-                    <button class="post-action">
+                    <button
+                        class="post-action comment-btn"
+                        type="button"
+                    >
                         ○ Comment
                     </button>
 
-                    <button class="post-action">
+                    <button
+                        class="post-action share-btn"
+                        type="button"
+                    >
                         ↗ Share
                     </button>
 
@@ -1293,7 +1362,10 @@
 
                     </div>
 
-                    <button class="follow-btn">
+                    <button
+                        class="follow-btn"
+                        type="button"
+                    >
                         Follow
                     </button>
 
@@ -1318,7 +1390,10 @@
 
                     </div>
 
-                    <button class="follow-btn">
+                    <button
+                        class="follow-btn"
+                        type="button"
+                    >
                         Follow
                     </button>
 
@@ -1343,7 +1418,10 @@
 
                     </div>
 
-                    <button class="follow-btn">
+                    <button
+                        class="follow-btn"
+                        type="button"
+                    >
                         Follow
                     </button>
 
@@ -1375,6 +1453,13 @@
         </aside>
 
     </main>
+
+
+    <!-- =========================
+         QELVUZO JAVASCRIPT
+         ========================= -->
+
+    <script src="js/app.js"></script>
 
 </body>
 
