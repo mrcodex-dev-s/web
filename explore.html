@@ -1,656 +1,1373 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
+
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <meta
+        name="description"
+        content="Explore people, trends, posts and communities on Qelvuzo."
+    >
 
     <title>Explore — Qelvuzo</title>
 
     <link rel="stylesheet" href="css/style.css">
 
     <style>
+
+        /* =========================
+           EXPLORE PAGE
+           ========================= */
+
         body {
-            background: #f8f8fc;
+            background: #f6f6fb;
         }
 
-        .explore-page {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 32px 20px 60px;
-        }
-
-        /* Search */
-        .explore-search {
-            background: white;
-            border: 1px solid var(--border);
-            border-radius: 18px;
-            padding: 14px 18px;
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            margin-bottom: 28px;
-            box-shadow: var(--shadow);
-        }
-
-        .explore-search span {
-            font-size: 20px;
-            color: var(--muted);
-        }
-
-        .explore-search input {
-            width: 100%;
-            border: none;
-            outline: none;
-            font-size: 15px;
-            color: var(--text);
-            background: transparent;
-        }
-
-        /* Section */
-        .explore-section {
-            margin-bottom: 32px;
-        }
-
-        .section-heading {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 16px;
-        }
-
-        .section-heading h2 {
-            margin: 0;
-            font-size: 21px;
-            color: var(--text);
-        }
-
-        .section-heading a {
-            text-decoration: none;
-            color: var(--primary);
-            font-size: 14px;
-            font-weight: 600;
-        }
-
-        /* Trending */
-        .trending-grid {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 16px;
-        }
-
-        .trend-card {
-            background: white;
-            border: 1px solid var(--border);
-            border-radius: var(--radius);
-            padding: 20px;
-            box-shadow: var(--shadow);
-            transition: 0.2s ease;
-        }
-
-        .trend-card:hover {
-            transform: translateY(-3px);
-        }
-
-        .trend-number {
-            color: var(--muted);
-            font-size: 13px;
-            margin-bottom: 7px;
-        }
-
-        .trend-card h3 {
-            margin: 0 0 7px;
-            font-size: 17px;
-            color: var(--text);
-        }
-
-        .trend-card p {
-            margin: 0;
-            color: var(--muted);
-            font-size: 13px;
-        }
-
-        /* People */
-        .people-grid {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 16px;
-        }
-
-        .person-card {
-            background: white;
-            border: 1px solid var(--border);
-            border-radius: var(--radius);
-            padding: 20px;
-            text-align: center;
-            box-shadow: var(--shadow);
-        }
-
-        .person-avatar {
-            width: 70px;
-            height: 70px;
-            border-radius: 50%;
-            margin: 0 auto 12px;
-            background: var(--soft-purple);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 24px;
-            font-weight: 700;
-            color: var(--primary);
-        }
-
-        .person-card h3 {
-            margin: 0 0 5px;
-            font-size: 16px;
-            color: var(--text);
-        }
-
-        .person-card p {
-            margin: 0 0 14px;
-            color: var(--muted);
-            font-size: 13px;
-        }
-
-        .follow-btn {
-            border: none;
-            background: var(--primary);
-            color: white;
-            padding: 9px 18px;
-            border-radius: 10px;
-            font-weight: 600;
-            cursor: pointer;
-        }
-
-        .follow-btn:hover {
-            background: var(--primary-dark);
-        }
-
-        /* Popular posts */
-        .popular-posts {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 18px;
-        }
-
-        .post-card {
-            background: white;
-            border: 1px solid var(--border);
-            border-radius: var(--radius);
-            padding: 20px;
-            box-shadow: var(--shadow);
-        }
-
-        .post-user {
-            display: flex;
-            align-items: center;
-            gap: 11px;
-            margin-bottom: 15px;
-        }
-
-        .post-avatar {
-            width: 42px;
-            height: 42px;
-            border-radius: 50%;
-            background: var(--soft-purple);
-            color: var(--primary);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-weight: 700;
-        }
-
-        .post-user h4 {
-            margin: 0;
-            font-size: 14px;
-            color: var(--text);
-        }
-
-        .post-user span {
-            color: var(--muted);
-            font-size: 12px;
-        }
-
-        .post-text {
-            color: #44485d;
-            line-height: 1.7;
-            font-size: 14px;
-            margin-bottom: 16px;
-        }
-
-        .post-stats {
-            border-top: 1px solid var(--border);
-            padding-top: 13px;
-            display: flex;
-            gap: 20px;
-            color: var(--muted);
-            font-size: 13px;
-        }
-
-        /* Communities */
-        .community-grid {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 16px;
-        }
-
-        .community-card {
-            background: white;
-            border: 1px solid var(--border);
-            border-radius: var(--radius);
-            padding: 20px;
-            box-shadow: var(--shadow);
-        }
-
-        .community-icon {
-            width: 48px;
-            height: 48px;
-            border-radius: 14px;
-            background: var(--soft-purple);
-            color: var(--primary);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 22px;
-            margin-bottom: 14px;
-        }
-
-        .community-card h3 {
-            margin: 0 0 7px;
-            font-size: 16px;
-            color: var(--text);
-        }
-
-        .community-card p {
-            margin: 0 0 14px;
-            color: var(--muted);
-            font-size: 13px;
-            line-height: 1.6;
-        }
-
-        .community-card a {
-            color: var(--primary);
-            text-decoration: none;
-            font-size: 13px;
-            font-weight: 600;
-        }
-
-        /* Navbar */
-        .explore-nav {
-            background: white;
-            border-bottom: 1px solid var(--border);
-            padding: 14px 20px;
+        .explore-navbar {
             position: sticky;
             top: 0;
             z-index: 100;
+
+            background: rgba(255, 255, 255, 0.94);
+
+            border-bottom: 1px solid var(--border);
+
+            backdrop-filter: blur(14px);
         }
 
-        .explore-nav-inner {
-            max-width: 1200px;
+        .explore-nav {
+            max-width: 1280px;
+            min-height: 68px;
+
             margin: auto;
+            padding: 0 20px;
+
             display: flex;
             align-items: center;
-            justify-content: space-between;
-            gap: 20px;
+
+            gap: 22px;
         }
 
         .explore-logo {
             text-decoration: none;
-            font-size: 23px;
-            font-weight: 800;
+
             color: var(--primary);
+
+            font-size: 24px;
+            font-weight: 800;
+
+            letter-spacing: -0.8px;
         }
 
-        .nav-actions {
+        .search-box {
+            width: 300px;
+
+            position: relative;
+        }
+
+        .search-box span {
+            position: absolute;
+
+            left: 14px;
+            top: 9px;
+
+            color: var(--muted);
+
+            font-size: 17px;
+        }
+
+        .search-box input {
+            width: 100%;
+
+            border: 1px solid var(--border);
+
+            background: #f8f8fc;
+
+            border-radius: 13px;
+
+            padding: 11px 15px 11px 40px;
+
+            outline: none;
+
+            color: var(--text);
+
+            font-size: 14px;
+        }
+
+        .search-box input:focus {
+            border-color: var(--primary);
+        }
+
+        .explore-nav-actions {
+            margin-left: auto;
+
             display: flex;
             align-items: center;
+
             gap: 10px;
         }
 
-        .nav-btn {
-            text-decoration: none;
-            color: var(--text);
-            background: #f5f5fa;
-            padding: 9px 13px;
-            border-radius: 10px;
-            font-size: 13px;
-            font-weight: 600;
+        .nav-icon {
+            width: 40px;
+            height: 40px;
+
+            border: 0;
+
+            border-radius: 12px;
+
+            background: #f5f4ff;
+
+            color: var(--primary);
+
+            cursor: pointer;
+
+            font-size: 17px;
+
+            transition: 0.2s ease;
         }
 
-        .nav-btn:hover {
+        .nav-icon:hover {
+            background: #eceaff;
+        }
+
+        .mini-profile {
+            width: 40px;
+            height: 40px;
+
+            border-radius: 50%;
+
             background: var(--soft-purple);
+
+            color: var(--primary);
+
+            display: flex;
+
+            align-items: center;
+            justify-content: center;
+
+            font-weight: 800;
+
+            text-decoration: none;
+        }
+
+
+        /* =========================
+           MAIN
+           ========================= */
+
+        .explore-layout {
+            max-width: 1180px;
+
+            margin: auto;
+
+            padding: 32px 20px 60px;
+        }
+
+        .explore-header {
+            margin-bottom: 25px;
+        }
+
+        .explore-header h1 {
+            margin: 0;
+
+            color: var(--text);
+
+            font-size: 28px;
+
+            letter-spacing: -0.5px;
+        }
+
+        .explore-header p {
+            margin-top: 7px;
+
+            color: var(--muted);
+
+            font-size: 14px;
+        }
+
+
+        /* =========================
+           SECTION
+           ========================= */
+
+        .explore-section {
+            margin-top: 30px;
+        }
+
+        .section-heading {
+            display: flex;
+
+            align-items: center;
+            justify-content: space-between;
+
+            margin-bottom: 15px;
+        }
+
+        .section-heading h2 {
+            margin: 0;
+
+            color: var(--text);
+
+            font-size: 17px;
+        }
+
+        .section-heading a {
+            color: var(--primary);
+
+            text-decoration: none;
+
+            font-size: 12px;
+
+            font-weight: 700;
+        }
+
+
+        /* =========================
+           TRENDING
+           ========================= */
+
+        .trending-grid {
+            display: grid;
+
+            grid-template-columns:
+                repeat(4, 1fr);
+
+            gap: 14px;
+        }
+
+        .trend-card {
+            background: white;
+
+            border: 1px solid var(--border);
+
+            border-radius: 17px;
+
+            padding: 18px;
+
+            box-shadow:
+                0 8px 25px rgba(55, 48, 124, 0.04);
+
+            transition: 0.2s ease;
+        }
+
+        .trend-card:hover {
+            transform: translateY(-2px);
+
+            box-shadow:
+                0 12px 30px rgba(55, 48, 124, 0.08);
+        }
+
+        .trend-number {
+            color: var(--muted);
+
+            font-size: 11px;
+        }
+
+        .trend-card h3 {
+            margin: 7px 0;
+
+            color: var(--text);
+
+            font-size: 14px;
+        }
+
+        .trend-card p {
+            margin: 0;
+
+            color: var(--muted);
+
+            font-size: 11px;
+        }
+
+
+        /* =========================
+           PEOPLE
+           ========================= */
+
+        .people-grid {
+            display: grid;
+
+            grid-template-columns:
+                repeat(3, 1fr);
+
+            gap: 15px;
+        }
+
+        .person-card {
+            background: white;
+
+            border: 1px solid var(--border);
+
+            border-radius: 18px;
+
+            padding: 18px;
+
+            display: flex;
+
+            align-items: center;
+
+            gap: 13px;
+
+            box-shadow:
+                0 8px 25px rgba(55, 48, 124, 0.04);
+        }
+
+        .person-avatar {
+            width: 48px;
+            height: 48px;
+
+            flex-shrink: 0;
+
+            border-radius: 50%;
+
+            background: var(--soft-purple);
+
+            color: var(--primary);
+
+            display: flex;
+
+            align-items: center;
+            justify-content: center;
+
+            font-weight: 800;
+        }
+
+        .person-info {
+            flex: 1;
+
+            min-width: 0;
+        }
+
+        .person-info strong {
+            display: block;
+
+            color: var(--text);
+
+            font-size: 13px;
+        }
+
+        .person-info small {
+            display: block;
+
+            margin-top: 3px;
+
+            color: var(--muted);
+
+            font-size: 11px;
+
+            white-space: nowrap;
+
+            overflow: hidden;
+
+            text-overflow: ellipsis;
+        }
+
+        .follow-btn {
+            border: 0;
+
+            background: var(--soft-purple);
+
+            color: var(--primary);
+
+            border-radius: 9px;
+
+            padding: 8px 11px;
+
+            font-size: 11px;
+
+            font-weight: 700;
+
+            cursor: pointer;
+
+            transition: 0.2s ease;
+        }
+
+        .follow-btn:hover {
+            background: #e7e5ff;
+        }
+
+        .follow-btn.following {
+            background: var(--primary);
+
+            color: white;
+        }
+
+
+        /* =========================
+           POPULAR POSTS
+           ========================= */
+
+        .popular-grid {
+            display: grid;
+
+            grid-template-columns:
+                repeat(2, 1fr);
+
+            gap: 16px;
+        }
+
+        .popular-post {
+            background: white;
+
+            border: 1px solid var(--border);
+
+            border-radius: 18px;
+
+            padding: 19px;
+
+            box-shadow:
+                0 8px 25px rgba(55, 48, 124, 0.04);
+        }
+
+        .popular-header {
+            display: flex;
+
+            align-items: center;
+
+            gap: 11px;
+        }
+
+        .popular-avatar {
+            width: 40px;
+            height: 40px;
+
+            border-radius: 50%;
+
+            background: var(--soft-purple);
+
+            color: var(--primary);
+
+            display: flex;
+
+            align-items: center;
+            justify-content: center;
+
+            font-weight: 800;
+        }
+
+        .popular-user {
+            flex: 1;
+        }
+
+        .popular-user strong {
+            display: block;
+
+            font-size: 13px;
+
+            color: var(--text);
+        }
+
+        .popular-user small {
+            display: block;
+
+            color: var(--muted);
+
+            font-size: 11px;
+        }
+
+        .popular-content {
+            padding: 15px 0;
+        }
+
+        .popular-content p {
+            margin: 0;
+
+            color: #45485c;
+
+            font-size: 13px;
+
+            line-height: 1.7;
+        }
+
+        .popular-stats {
+            display: flex;
+
+            justify-content: space-between;
+
+            padding-bottom: 10px;
+
+            color: var(--muted);
+
+            font-size: 11px;
+        }
+
+        .popular-actions {
+            display: grid;
+
+            grid-template-columns:
+                repeat(3, 1fr);
+
+            border-top: 1px solid var(--border);
+
+            padding-top: 8px;
+        }
+
+        .post-action {
+            border: 0;
+
+            background: transparent;
+
+            color: var(--muted);
+
+            padding: 9px;
+
+            border-radius: 10px;
+
+            cursor: pointer;
+
+            font-size: 12px;
+
+            font-weight: 600;
+
+            transition: 0.2s ease;
+        }
+
+        .post-action:hover {
+            background: #f5f4ff;
+
             color: var(--primary);
         }
 
-        /* Responsive */
-        @media (max-width: 850px) {
+        .post-action.liked {
+            background: var(--soft-purple);
 
-            .trending-grid,
-            .people-grid,
-            .community-grid {
-                grid-template-columns: repeat(2, 1fr);
-            }
-
-            .popular-posts {
-                grid-template-columns: 1fr;
-            }
+            color: var(--primary);
         }
 
-        @media (max-width: 550px) {
 
-            .explore-page {
-                padding: 22px 14px 40px;
+        /* =========================
+           COMMUNITIES
+           ========================= */
+
+        .community-grid {
+            display: grid;
+
+            grid-template-columns:
+                repeat(3, 1fr);
+
+            gap: 15px;
+        }
+
+        .community-card {
+            background: white;
+
+            border: 1px solid var(--border);
+
+            border-radius: 18px;
+
+            padding: 19px;
+
+            box-shadow:
+                0 8px 25px rgba(55, 48, 124, 0.04);
+
+            transition: 0.2s ease;
+        }
+
+        .community-card:hover {
+            transform: translateY(-2px);
+        }
+
+        .community-icon {
+            width: 43px;
+            height: 43px;
+
+            border-radius: 13px;
+
+            background: var(--soft-purple);
+
+            color: var(--primary);
+
+            display: flex;
+
+            align-items: center;
+            justify-content: center;
+
+            font-weight: 800;
+
+            margin-bottom: 12px;
+        }
+
+        .community-card h3 {
+            margin: 0 0 6px;
+
+            color: var(--text);
+
+            font-size: 14px;
+        }
+
+        .community-card p {
+            margin: 0;
+
+            color: var(--muted);
+
+            font-size: 11px;
+
+            line-height: 1.6;
+        }
+
+        .community-members {
+            display: block;
+
+            margin-top: 13px;
+
+            color: var(--primary);
+
+            font-size: 11px;
+
+            font-weight: 700;
+        }
+
+
+        /* =========================
+           RESPONSIVE
+           ========================= */
+
+        @media (max-width: 900px) {
+
+            .trending-grid {
+                grid-template-columns:
+                    repeat(2, 1fr);
             }
 
+            .people-grid {
+                grid-template-columns:
+                    repeat(2, 1fr);
+            }
+
+            .community-grid {
+                grid-template-columns:
+                    repeat(2, 1fr);
+            }
+
+        }
+
+
+        @media (max-width: 650px) {
+
             .explore-nav {
-                padding: 12px 14px;
+                padding: 0 14px;
+
+                gap: 10px;
             }
 
             .explore-logo {
-                font-size: 20px;
+                font-size: 21px;
             }
 
-            .nav-actions {
-                gap: 5px;
+            .search-box {
+                flex: 1;
+
+                width: auto;
             }
 
-            .nav-btn {
-                padding: 8px 9px;
-                font-size: 12px;
+            .nav-icon {
+                display: none;
+            }
+
+            .explore-layout {
+                padding: 22px 13px 45px;
+            }
+
+            .explore-header h1 {
+                font-size: 24px;
             }
 
             .trending-grid,
             .people-grid,
-            .community-grid {
+            .community-grid,
+            .popular-grid {
                 grid-template-columns: 1fr;
             }
 
-            .section-heading h2 {
-                font-size: 18px;
+            .person-card {
+                padding: 15px;
             }
+
         }
+
     </style>
+
 </head>
+
 
 <body>
 
-    <!-- Navbar -->
-    <nav class="explore-nav">
-        <div class="explore-nav-inner">
 
-            <a href="home.html" class="explore-logo">
+    <!-- =========================
+         NAVBAR
+         ========================= -->
+
+    <header class="explore-navbar">
+
+        <nav class="explore-nav">
+
+            <a
+                href="home.html"
+                class="explore-logo"
+            >
                 Qelvuzo
             </a>
 
-            <div class="nav-actions">
-                <a href="home.html" class="nav-btn">Home</a>
-                <a href="profile.html" class="nav-btn">Profile</a>
-                <a href="messages.html" class="nav-btn">Messages</a>
+
+            <div class="search-box">
+
+                <span>⌕</span>
+
+                <input
+                    type="search"
+                    class="search-input"
+                    placeholder="Search Qelvuzo"
+                    aria-label="Search Qelvuzo"
+                >
+
             </div>
 
-        </div>
-    </nav>
+
+            <div class="explore-nav-actions">
+
+                <button
+                    class="nav-icon"
+                    type="button"
+                >
+                    ♡
+                </button>
+
+                <button
+                    class="nav-icon"
+                    type="button"
+                >
+                    ◇
+                </button>
+
+                <a
+                    href="profile.html"
+                    class="mini-profile"
+                >
+                    Q
+                </a>
+
+            </div>
+
+        </nav>
+
+    </header>
 
 
-    <!-- Explore -->
-    <main class="explore-page">
 
-        <!-- Search -->
-        <div class="explore-search">
-            <span>⌕</span>
+    <!-- =========================
+         EXPLORE
+         ========================= -->
 
-            <input
-                type="text"
-                placeholder="Search people, posts, topics..."
-            >
-        </div>
+    <main class="explore-layout">
 
 
-        <!-- Trending -->
+        <!-- HEADER -->
+
+        <header class="explore-header">
+
+            <h1>
+                Explore
+            </h1>
+
+            <p>
+                Discover people, trends, communities and
+                interesting posts on Qelvuzo.
+            </p>
+
+        </header>
+
+
+
+        <!-- =========================
+             TRENDING
+             ========================= -->
+
         <section class="explore-section">
 
             <div class="section-heading">
-                <h2>Trending on Qelvuzo</h2>
-                <a href="#">See all</a>
+
+                <h2>
+                    Trending now
+                </h2>
+
+                <a href="#">
+                    See all
+                </a>
+
             </div>
+
 
             <div class="trending-grid">
 
-                <div class="trend-card">
-                    <div class="trend-number">01 · Trending</div>
-                    <h3>#Qelvuzo</h3>
-                    <p>12.4K posts</p>
-                </div>
 
-                <div class="trend-card">
-                    <div class="trend-number">02 · Technology</div>
-                    <h3>#WebDevelopment</h3>
-                    <p>8.7K posts</p>
-                </div>
+                <article class="trend-card">
 
-                <div class="trend-card">
-                    <div class="trend-number">03 · Community</div>
-                    <h3>#Bangladesh</h3>
-                    <p>6.9K posts</p>
-                </div>
+                    <span class="trend-number">
+                        #01
+                    </span>
+
+                    <h3>
+                        Web Development
+                    </h3>
+
+                    <p>
+                        12.4K posts
+                    </p>
+
+                </article>
+
+
+                <article class="trend-card">
+
+                    <span class="trend-number">
+                        #02
+                    </span>
+
+                    <h3>
+                        Technology
+                    </h3>
+
+                    <p>
+                        9.8K posts
+                    </p>
+
+                </article>
+
+
+                <article class="trend-card">
+
+                    <span class="trend-number">
+                        #03
+                    </span>
+
+                    <h3>
+                        Design
+                    </h3>
+
+                    <p>
+                        7.2K posts
+                    </p>
+
+                </article>
+
+
+                <article class="trend-card">
+
+                    <span class="trend-number">
+                        #04
+                    </span>
+
+                    <h3>
+                        Programming
+                    </h3>
+
+                    <p>
+                        6.7K posts
+                    </p>
+
+                </article>
+
 
             </div>
 
         </section>
 
 
-        <!-- Suggested People -->
+
+        <!-- =========================
+             PEOPLE
+             ========================= -->
+
         <section class="explore-section">
 
             <div class="section-heading">
-                <h2>People you may know</h2>
-                <a href="#">See all</a>
+
+                <h2>
+                    People you may know
+                </h2>
+
+                <a href="#">
+                    See all
+                </a>
+
             </div>
+
 
             <div class="people-grid">
 
-                <div class="person-card">
+
+                <article class="person-card">
 
                     <div class="person-avatar">
                         A
                     </div>
 
-                    <h3>Arif Hasan</h3>
+                    <div class="person-info">
 
-                    <p>@arifhasan</p>
+                        <strong>
+                            Alex Morgan
+                        </strong>
 
-                    <button class="follow-btn">
-                        Follow
-                    </button>
+                        <small>
+                            @alexmorgan
+                        </small>
 
-                </div>
-
-
-                <div class="person-card">
-
-                    <div class="person-avatar">
-                        N
                     </div>
 
-                    <h3>Nusrat Jahan</h3>
-
-                    <p>@nusratjahan</p>
-
-                    <button class="follow-btn">
+                    <button
+                        class="follow-btn"
+                        type="button"
+                    >
                         Follow
                     </button>
 
-                </div>
+                </article>
 
 
-                <div class="person-card">
+                <article class="person-card">
+
+                    <div class="person-avatar">
+                        M
+                    </div>
+
+                    <div class="person-info">
+
+                        <strong>
+                            Maya Wilson
+                        </strong>
+
+                        <small>
+                            @mayawilson
+                        </small>
+
+                    </div>
+
+                    <button
+                        class="follow-btn"
+                        type="button"
+                    >
+                        Follow
+                    </button>
+
+                </article>
+
+
+                <article class="person-card">
 
                     <div class="person-avatar">
                         R
                     </div>
 
-                    <h3>Rakib Ahmed</h3>
+                    <div class="person-info">
 
-                    <p>@rakibahmed</p>
+                        <strong>
+                            Ryan Cooper
+                        </strong>
 
-                    <button class="follow-btn">
+                        <small>
+                            @ryancooper
+                        </small>
+
+                    </div>
+
+                    <button
+                        class="follow-btn"
+                        type="button"
+                    >
                         Follow
                     </button>
 
-                </div>
+                </article>
+
+
+                <article class="person-card">
+
+                    <div class="person-avatar">
+                        S
+                    </div>
+
+                    <div class="person-info">
+
+                        <strong>
+                            Sara Khan
+                        </strong>
+
+                        <small>
+                            @sarakhan
+                        </small>
+
+                    </div>
+
+                    <button
+                        class="follow-btn"
+                        type="button"
+                    >
+                        Follow
+                    </button>
+
+                </article>
+
+
+                <article class="person-card">
+
+                    <div class="person-avatar">
+                        D
+                    </div>
+
+                    <div class="person-info">
+
+                        <strong>
+                            Daniel Lee
+                        </strong>
+
+                        <small>
+                            @daniellee
+                        </small>
+
+                    </div>
+
+                    <button
+                        class="follow-btn"
+                        type="button"
+                    >
+                        Follow
+                    </button>
+
+                </article>
+
+
+                <article class="person-card">
+
+                    <div class="person-avatar">
+                        J
+                    </div>
+
+                    <div class="person-info">
+
+                        <strong>
+                            Jamie Smith
+                        </strong>
+
+                        <small>
+                            @jamiesmith
+                        </small>
+
+                    </div>
+
+                    <button
+                        class="follow-btn"
+                        type="button"
+                    >
+                        Follow
+                    </button>
+
+                </article>
+
 
             </div>
 
         </section>
 
 
-        <!-- Popular Posts -->
+
+        <!-- =========================
+             POPULAR POSTS
+             ========================= -->
+
         <section class="explore-section">
 
             <div class="section-heading">
-                <h2>Popular posts</h2>
-                <a href="#">See all</a>
+
+                <h2>
+                    Popular posts
+                </h2>
+
+                <a href="#">
+                    See all
+                </a>
+
             </div>
 
-            <div class="popular-posts">
 
-                <article class="post-card">
+            <div class="popular-grid">
 
-                    <div class="post-user">
 
-                        <div class="post-avatar">
-                            S
+                <!-- POST 1 -->
+
+                <article class="popular-post post">
+
+                    <div class="popular-header">
+
+                        <div class="popular-avatar">
+                            A
                         </div>
 
-                        <div>
-                            <h4>Sarah Khan</h4>
-                            <span>@sarahkhan · 2h</span>
+                        <div class="popular-user">
+
+                            <strong>
+                                Alex Morgan
+                            </strong>
+
+                            <small>
+                                24 min ago · Public
+                            </small>
+
                         </div>
 
                     </div>
 
-                    <div class="post-text">
-                        Small steps every day can create something
-                        amazing. Keep learning, keep building and
-                        keep moving forward.
+
+                    <div class="popular-content">
+
+                        <p>
+                            Building something new today.
+                            Excited to share the journey with
+                            the Qelvuzo community.
+                        </p>
+
                     </div>
 
-                    <div class="post-stats">
-                        <span>1.8K likes</span>
-                        <span>124 comments</span>
-                        <span>56 shares</span>
+
+                    <div class="popular-stats">
+
+                        <span>
+                            <span class="like-count">
+                                86
+                            </span>
+                            likes
+                        </span>
+
+                        <span>
+                            14 comments
+                        </span>
+
+                    </div>
+
+
+                    <div class="popular-actions">
+
+                        <button
+                            class="post-action like-btn"
+                            type="button"
+                        >
+                            ♡ Like
+                        </button>
+
+                        <button
+                            class="post-action comment-btn"
+                            type="button"
+                        >
+                            ○ Comment
+                        </button>
+
+                        <button
+                            class="post-action share-btn"
+                            type="button"
+                        >
+                            ↗ Share
+                        </button>
+
                     </div>
 
                 </article>
 
 
-                <article class="post-card">
 
-                    <div class="post-user">
+                <!-- POST 2 -->
 
-                        <div class="post-avatar">
+                <article class="popular-post post">
+
+                    <div class="popular-header">
+
+                        <div class="popular-avatar">
                             M
                         </div>
 
-                        <div>
-                            <h4>Mahin Rahman</h4>
-                            <span>@mahinrahman · 4h</span>
+                        <div class="popular-user">
+
+                            <strong>
+                                Maya Wilson
+                            </strong>
+
+                            <small>
+                                1 hour ago · Public
+                            </small>
+
                         </div>
 
                     </div>
 
-                    <div class="post-text">
-                        Building a better digital community starts
-                        with people who are willing to share ideas,
-                        knowledge and creativity.
+
+                    <div class="popular-content">
+
+                        <p>
+                            A good community can turn small
+                            ideas into something much bigger.
+                        </p>
+
                     </div>
 
-                    <div class="post-stats">
-                        <span>1.2K likes</span>
-                        <span>89 comments</span>
-                        <span>31 shares</span>
+
+                    <div class="popular-stats">
+
+                        <span>
+                            <span class="like-count">
+                                124
+                            </span>
+                            likes
+                        </span>
+
+                        <span>
+                            21 comments
+                        </span>
+
+                    </div>
+
+
+                    <div class="popular-actions">
+
+                        <button
+                            class="post-action like-btn"
+                            type="button"
+                        >
+                            ♡ Like
+                        </button>
+
+                        <button
+                            class="post-action comment-btn"
+                            type="button"
+                        >
+                            ○ Comment
+                        </button>
+
+                        <button
+                            class="post-action share-btn"
+                            type="button"
+                        >
+                            ↗ Share
+                        </button>
+
                     </div>
 
                 </article>
 
+
             </div>
 
         </section>
 
 
-        <!-- Communities -->
+
+        <!-- =========================
+             COMMUNITIES
+             ========================= -->
+
         <section class="explore-section">
 
             <div class="section-heading">
-                <h2>Discover communities</h2>
-                <a href="#">See all</a>
+
+                <h2>
+                    Communities
+                </h2>
+
+                <a href="#">
+                    Explore all
+                </a>
+
             </div>
+
 
             <div class="community-grid">
 
-                <div class="community-card">
+
+                <article class="community-card">
 
                     <div class="community-icon">
-                        &lt;/&gt;
+                        DEV
                     </div>
 
-                    <h3>Web Developers</h3>
+                    <h3>
+                        Developers
+                    </h3>
 
                     <p>
-                        A community for developers,
-                        designers and technology lovers.
+                        Share programming ideas,
+                        projects and development tips.
                     </p>
 
-                    <a href="#">
-                        Explore community →
-                    </a>
+                    <span class="community-members">
+                        18.4K members
+                    </span>
 
-                </div>
+                </article>
 
 
-                <div class="community-card">
+                <article class="community-card">
 
                     <div class="community-icon">
-                        ✦
+                        ART
                     </div>
 
-                    <h3>Creative Minds</h3>
+                    <h3>
+                        Creative Space
+                    </h3>
 
                     <p>
-                        Share creative ideas, artwork,
-                        design and inspiration.
+                        A place for designers, artists
+                        and creative minds.
                     </p>
 
-                    <a href="#">
-                        Explore community →
-                    </a>
+                    <span class="community-members">
+                        12.7K members
+                    </span>
 
-                </div>
+                </article>
 
 
-                <div class="community-card">
+                <article class="community-card">
 
                     <div class="community-icon">
-                        +
+                        TECH
                     </div>
 
-                    <h3>Student Hub</h3>
+                    <h3>
+                        Tech World
+                    </h3>
 
                     <p>
-                        Connect with students and
-                        discover useful learning resources.
+                        Discuss technology, innovation
+                        and the future of tech.
                     </p>
 
-                    <a href="#">
-                        Explore community →
-                    </a>
+                    <span class="community-members">
+                        9.6K members
+                    </span>
 
-                </div>
+                </article>
+
 
             </div>
 
         </section>
 
+
     </main>
 
+
+
+    <!-- =========================
+         QELVUZO JAVASCRIPT
+         ========================= -->
+
+    <script src="js/app.js"></script>
+
+
 </body>
+
 </html>
