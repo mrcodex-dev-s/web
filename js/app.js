@@ -107,6 +107,22 @@ async function loadQelvuzoPosts() {
 }
 
 // ==========================================
+// QELVUZO POSTS
+// ==========================================
+
+async function getQelvuzoPosts() {
+    try {
+        const data = await apiRequest("/api/posts");
+
+        console.log("Qelvuzo Posts:", data);
+
+        return data.posts || [];
+    } catch (error) {
+        console.error("Posts API Error:", error);
+        return [];
+    }
+}
+// ==========================================
 // API HEALTH
 // ==========================================
 
@@ -655,3 +671,12 @@ checkQelvuzoAPI();
 // ==========================================
 
 loadQelvuzoPosts();
+// ==========================================
+// LOAD REAL POSTS
+// ==========================================
+
+document.addEventListener("DOMContentLoaded", async () => {
+    const posts = await getQelvuzoPosts();
+
+    console.log("Real D1 posts:", posts);
+});
