@@ -649,3 +649,9 @@ document.addEventListener("DOMContentLoaded", () => {
 checkQelvuzoAPI();
 
 });
+
+// ==========================================
+// TEST POSTS API
+// ==========================================
+
+loadQelvuzoPosts();
