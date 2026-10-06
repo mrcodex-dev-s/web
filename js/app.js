@@ -3,85 +3,456 @@
 // ==========================================
 
 const API_BASE_URL =
-  "https://green-brook-81d9.mr-codex1241.workers.dev";
-
-async function apiRequest(endpoint, options = {}) {
-  const response = await fetch(
-    `${API_BASE_URL}${endpoint}`,
-    {
-      method: options.method || "GET",
-      headers: {
-        "Content-Type": "application/json",
-        ...(options.headers || {})
-      },
-      body: options.body
-        ? JSON.stringify(options.body)
-        : undefined
-    }
-  );
-
-  const data = await response.json();
-
-  if (!response.ok || data.success === false) {
-    throw new Error(
-      data.error || "API request failed"
-    );
-  }
-
-  return data;
-}
-// ==========================================
-// QELVUZO API CONFIG
-// ==========================================
-
-const API_BASE_URL =
-  "https://green-brook-81d9.mr-codex1241.workers.dev";
+    "https://green-brook-81d9.mr-codex1241.workers.dev";
 
 
 // ==========================================
-// API REQUEST HELPER
+// GENERIC API REQUEST
 // ==========================================
 
 async function apiRequest(endpoint, options = {}) {
-  const response = await fetch(
-    `${API_BASE_URL}${endpoint}`,
-    {
-      method: options.method || "GET",
+    const config = {
+        method: options.method || "GET",
+        headers: {
+            "Content-Type": "application/json",
+            ...(options.headers || {})
+        }
+    };
 
-      headers: {
-        "Content-Type": "application/json",
-        ...(options.headers || {})
-      },
-
-      body: options.body
-        ? JSON.stringify(options.body)
-        : undefined
+    if (options.body !== undefined) {
+        config.body = JSON.stringify(options.body);
     }
-  );
 
-  let data;
-
-  try {
-    data = await response.json();
-  } catch (error) {
-    throw new Error("Invalid API response");
-  }
-
-  if (!response.ok || data.success === false) {
-    throw new Error(
-      data.error || "API request failed"
+    const response = await fetch(
+        `${API_BASE_URL}${endpoint}`,
+        config
     );
-  }
 
-  return data;
+    let data;
+
+    try {
+        data = await response.json();
+    } catch (error) {
+        throw new Error("Invalid API response");
+    }
+
+    if (!response.ok || data.success === false) {
+        throw new Error(
+            data.error || `API request failed: ${response.status}`
+        );
+    }
+
+    return data;
 }
+
+
 // ==========================================
-// QELVUZO POSTS API
+// HEALTH
+// ==========================================
+
+async function qelvuzoHealth() {
+    return await apiRequest("/api/health");
+}
+
+
+// ==========================================
+// USERS
+// ==========================================
+
+async function getUsers() {
+    return await apiRequest("/api/users");
+}
+
+async function createUser(user) {
+    return await apiRequest("/api/users", {
+        method: "POST",
+        body: user
+    });
+}
+
+
+// ==========================================
+// POSTS
 // ==========================================
 
 async function getPosts() {
-  return await apiRequest("/api/posts");
+    return await apiRequest("/api/posts");
 }
+
+async function createPost({
+    id,
+    user_id,
+    content = null,
+    image_url = null
+}) {
+    return await apiRequest("/api/posts", {
+        method: "POST",
+        body: {
+            id,
+            user_id,
+            content,
+            image_url
+        }
+    });
+}
+
+
+// ==========================================
+// LIKES
+// ==========================================
+
+async function likePost(postId, userId) {
+    return await apiRequest(
+        `/api/posts/${encodeURIComponent(postId)}/like`,
+        {
+            method: "POST",
+            body: {
+                user_id: userId
+            }
+        }
+    );
+}
+
+async function unlikePost(postId, userId) {
+    return await apiRequest(
+        `/api/posts/${encodeURIComponent(postId)}/like`,
+        {
+            method: "DELETE",
+            body: {
+                user_id: userId
+            }
+        }
+    );
+}
+
+async function getPostLikes(postId) {
+    return await apiRequest(
+        `/api/posts/${encodeURIComponent(postId)}/likes`
+    );
+}
+
+
+// ==========================================
+// COMMENTS
+// ==========================================
+
+async function getComments(postId) {
+    return await apiRequest(
+        `/api/posts/${encodeURIComponent(postId)}/comments`
+    );
+}
+
+async function createComment(
+    postId,
+    userId,
+    content
+) {
+    return await apiRequest(
+        `/api/posts/${encodeURIComponent(postId)}/comments`,
+        {
+            method: "POST",
+            body: {
+                user_id: userId,
+                content
+            }
+        }
+    );
+}
+
+async function deleteComment(commentId) {
+    return await apiRequest(
+        `/api/comments/${encodeURIComponent(commentId)}`,
+        {
+            method: "DELETE"
+        }
+    );
+}
+
+
+// ==========================================
+// FOLLOW
+// ==========================================
+
+async function followUser(
+    followingId,
+    followerId
+) {
+    return await apiRequest(
+        `/api/users/${encodeURIComponent(followingId)}/follow`,
+        {
+            method: "POST",
+            body: {
+                follower_id: followerId
+            }
+        }
+    );
+}
+
+async function unfollowUser(
+    followingId,
+    followerId
+) {
+    return await apiRequest(
+        `/api/users/${encodeURIComponent(followingId)}/follow`,
+        {
+            method: "DELETE",
+            body: {
+                follower_id: followerId
+            }
+        }
+    );
+}
+
+async function getFollowers(userId) {
+    return await apiRequest(
+        `/api/users/${encodeURIComponent(userId)}/followers`
+    );
+}
+
+async function getFollowing(userId) {
+    return await apiRequest(
+        `/api/users/${encodeURIComponent(userId)}/following`
+    );
+}
+
+
+// ==========================================
+// NOTIFICATIONS
+// ==========================================
+
+async function getNotifications(userId) {
+    return await apiRequest(
+        `/api/users/${encodeURIComponent(userId)}/notifications`
+    );
+}
+
+async function markNotificationRead(
+    notificationId
+) {
+    return await apiRequest(
+        `/api/notifications/${encodeURIComponent(notificationId)}/read`,
+        {
+            method: "PATCH"
+        }
+    );
+}
+
+async function markAllNotificationsRead(userId) {
+    return await apiRequest(
+        `/api/users/${encodeURIComponent(userId)}/notifications/read-all`,
+        {
+            method: "PATCH"
+        }
+    );
+}
+
+async function deleteNotification(notificationId) {
+    return await apiRequest(
+        `/api/notifications/${encodeURIComponent(notificationId)}`,
+        {
+            method: "DELETE"
+        }
+    );
+}
+
+
+// ==========================================
+// STORIES
+// ==========================================
+
+async function getStories() {
+    return await apiRequest("/api/stories");
+}
+
+async function getUserStories(userId) {
+    return await apiRequest(
+        `/api/users/${encodeURIComponent(userId)}/stories`
+    );
+}
+
+async function createStory({
+    user_id,
+    media_url,
+    media_type = "image",
+    caption = null,
+    expires_at = null
+}) {
+    return await apiRequest("/api/stories", {
+        method: "POST",
+        body: {
+            user_id,
+            media_url,
+            media_type,
+            caption,
+            expires_at
+        }
+    });
+}
+
+async function viewStory(storyId, userId) {
+    return await apiRequest(
+        `/api/stories/${encodeURIComponent(storyId)}/view`,
+        {
+            method: "POST",
+            body: {
+                user_id: userId
+            }
+        }
+    );
+}
+
+async function deleteStory(storyId, userId) {
+    return await apiRequest(
+        `/api/stories/${encodeURIComponent(storyId)}`,
+        {
+            method: "DELETE",
+            body: {
+                user_id: userId
+            }
+        }
+    );
+}
+
+
+// ==========================================
+// CONVERSATIONS
+// ==========================================
+
+async function createConversation(
+    userId,
+    otherUserId
+) {
+    return await apiRequest(
+        "/api/conversations",
+        {
+            method: "POST",
+            body: {
+                user_id: userId,
+                other_user_id: otherUserId
+            }
+        }
+    );
+}
+
+async function getConversations(userId) {
+    return await apiRequest(
+        `/api/conversations?user_id=${encodeURIComponent(userId)}`
+    );
+}
+
+
+// ==========================================
+// MESSAGES
+// ==========================================
+
+async function sendMessage(
+    conversationId,
+    senderId,
+    content
+) {
+    return await apiRequest(
+        `/api/conversations/${encodeURIComponent(conversationId)}/messages`,
+        {
+            method: "POST",
+            body: {
+                sender_id: senderId,
+                content
+            }
+        }
+    );
+}
+
+async function getMessages(
+    conversationId,
+    userId,
+    limit = 50,
+    before = null
+) {
+    let endpoint =
+        `/api/conversations/${encodeURIComponent(conversationId)}/messages` +
+        `?user_id=${encodeURIComponent(userId)}` +
+        `&limit=${limit}`;
+
+    if (before) {
+        endpoint +=
+            `&before=${encodeURIComponent(before)}`;
+    }
+
+    return await apiRequest(endpoint);
+}
+
+async function markMessageRead(
+    messageId,
+    userId
+) {
+    return await apiRequest(
+        `/api/messages/${encodeURIComponent(messageId)}/read`,
+        {
+            method: "POST",
+            body: {
+                user_id: userId
+            }
+        }
+    );
+}
+
+async function getUnreadCount(
+    conversationId,
+    userId
+) {
+    return await apiRequest(
+        `/api/conversations/${encodeURIComponent(conversationId)}/unread` +
+        `?user_id=${encodeURIComponent(userId)}`
+    );
+}
+
+
+// ==========================================
+// API TEST
+// ==========================================
+
+async function testQelvuzoAPI() {
+    try {
+        const health = await qelvuzoHealth();
+
+        console.log(
+            "Qelvuzo API connected:",
+            health
+        );
+
+        const posts = await getPosts();
+
+        console.log(
+            "Qelvuzo posts:",
+            posts
+        );
+
+        return {
+            health,
+            posts
+        };
+
+    } catch (error) {
+        console.error(
+            "Qelvuzo API error:",
+            error
+        );
+
+        return null;
+    }
+}
+
+
+// ==========================================
+// INITIAL API TEST
+// ==========================================
+
+document.addEventListener(
+    "DOMContentLoaded",
+    () => {
+        testQelvuzoAPI();
+    }
+);
 
 
 // ==========================================
