@@ -75,7 +75,36 @@ async function apiRequest(endpoint, options = {}) {
 
   return data;
 }
+// ==========================================
+// QELVUZO POSTS API
+// ==========================================
 
+async function getPosts() {
+  return await apiRequest("/api/posts");
+}
+
+
+// ==========================================
+// LOAD POSTS
+// ==========================================
+
+async function loadQelvuzoPosts() {
+  try {
+    const data = await getPosts();
+
+    console.log("Qelvuzo posts loaded:", data);
+
+    return data.posts || [];
+
+  } catch (error) {
+    console.error(
+      "Failed to load Qelvuzo posts:",
+      error
+    );
+
+    return [];
+  }
+}
 
 // ==========================================
 // API HEALTH
