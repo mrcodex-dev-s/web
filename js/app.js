@@ -581,6 +581,10 @@ document.addEventListener("DOMContentLoaded", () => {
 
         }
     );
+// ==========================================
+// API CONNECTION TEST
+// ==========================================
 
+checkQelvuzoAPI();
 
 });
