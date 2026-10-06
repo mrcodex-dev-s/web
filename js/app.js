@@ -1,4 +1,75 @@
-// Qelvuzo — Main App JavaScript
+// ==========================================
+// QELVUZO API CONFIG
+// ==========================================
+
+const API_BASE_URL =
+  "https://green-brook-81d9.mr-codex1241.workers.dev";
+
+
+// ==========================================
+// API REQUEST HELPER
+// ==========================================
+
+async function apiRequest(endpoint, options = {}) {
+  const response = await fetch(
+    `${API_BASE_URL}${endpoint}`,
+    {
+      method: options.method || "GET",
+
+      headers: {
+        "Content-Type": "application/json",
+        ...(options.headers || {})
+      },
+
+      body: options.body
+        ? JSON.stringify(options.body)
+        : undefined
+    }
+  );
+
+  let data;
+
+  try {
+    data = await response.json();
+  } catch (error) {
+    throw new Error("Invalid API response");
+  }
+
+  if (!response.ok || data.success === false) {
+    throw new Error(
+      data.error || "API request failed"
+    );
+  }
+
+  return data;
+}
+
+
+// ==========================================
+// API HEALTH
+// ==========================================
+
+async function checkQelvuzoAPI() {
+  try {
+    const data = await apiRequest("/api/health");
+
+    console.log(
+      "Qelvuzo API connected:",
+      data
+    );
+
+    return data;
+
+  } catch (error) {
+
+    console.error(
+      "Qelvuzo API connection failed:",
+      error
+    );
+
+    return null;
+  }
+}// Qelvuzo — Main App JavaScript
 
 document.addEventListener("DOMContentLoaded", () => {
 
