@@ -1,16 +1,34 @@
-// ==========================================
-// QELVUZO BACKEND API
-// ==========================================
+// ======================================================
+// QELVUZO — MAIN APP + BACKEND INTEGRATION
+// ======================================================
+
+
+// ======================================================
+// API CONFIG
+// ======================================================
 
 const API_BASE_URL =
     "https://green-brook-81d9.mr-codex1241.workers.dev";
 
 
-// ==========================================
+// ======================================================
+// CURRENT USER
+// ======================================================
+
+// আপাতত testing user.
+// Login system connect করার সময় এখানে real logged-in
+// user ID বসানো হবে.
+
+const CURRENT_USER_ID =
+    localStorage.getItem("qelvuzo_user_id") || "user-1";
+
+
+// ======================================================
 // GENERIC API REQUEST
-// ==========================================
+// ======================================================
 
 async function apiRequest(endpoint, options = {}) {
+
     const config = {
         method: options.method || "GET",
         headers: {
@@ -19,16 +37,20 @@ async function apiRequest(endpoint, options = {}) {
         }
     };
 
+
     if (options.body !== undefined) {
         config.body = JSON.stringify(options.body);
     }
+
 
     const response = await fetch(
         `${API_BASE_URL}${endpoint}`,
         config
     );
 
-    let data;
+
+    let data = null;
+
 
     try {
         data = await response.json();
@@ -36,48 +58,57 @@ async function apiRequest(endpoint, options = {}) {
         throw new Error("Invalid API response");
     }
 
+
     if (!response.ok || data.success === false) {
+
         throw new Error(
-            data.error || `API request failed: ${response.status}`
+            data?.error ||
+            `API request failed: ${response.status}`
         );
+
     }
+
 
     return data;
 }
 
 
-// ==========================================
+// ======================================================
 // HEALTH
-// ==========================================
+// ======================================================
 
 async function qelvuzoHealth() {
     return await apiRequest("/api/health");
 }
 
 
-// ==========================================
+// ======================================================
 // USERS
-// ==========================================
+// ======================================================
 
 async function getUsers() {
     return await apiRequest("/api/users");
 }
 
+
 async function createUser(user) {
+
     return await apiRequest("/api/users", {
         method: "POST",
         body: user
     });
+
 }
 
 
-// ==========================================
+// ======================================================
 // POSTS
-// ==========================================
+// ======================================================
 
 async function getPosts() {
     return await apiRequest("/api/posts");
 }
+
 
 async function createPost({
     id,
@@ -85,8 +116,10 @@ async function createPost({
     content = null,
     image_url = null
 }) {
+
     return await apiRequest("/api/posts", {
         method: "POST",
+
         body: {
             id,
             user_id,
@@ -94,181 +127,227 @@ async function createPost({
             image_url
         }
     });
+
 }
 
 
-// ==========================================
+// ======================================================
 // LIKES
-// ==========================================
+// ======================================================
 
 async function likePost(postId, userId) {
+
     return await apiRequest(
         `/api/posts/${encodeURIComponent(postId)}/like`,
         {
             method: "POST",
+
             body: {
                 user_id: userId
             }
         }
     );
+
 }
 
+
 async function unlikePost(postId, userId) {
+
     return await apiRequest(
         `/api/posts/${encodeURIComponent(postId)}/like`,
         {
             method: "DELETE",
+
             body: {
                 user_id: userId
             }
         }
     );
+
 }
 
+
 async function getPostLikes(postId) {
+
     return await apiRequest(
         `/api/posts/${encodeURIComponent(postId)}/likes`
     );
+
 }
 
 
-// ==========================================
+// ======================================================
 // COMMENTS
-// ==========================================
+// ======================================================
 
 async function getComments(postId) {
+
     return await apiRequest(
         `/api/posts/${encodeURIComponent(postId)}/comments`
     );
+
 }
+
 
 async function createComment(
     postId,
     userId,
     content
 ) {
+
     return await apiRequest(
         `/api/posts/${encodeURIComponent(postId)}/comments`,
         {
             method: "POST",
+
             body: {
                 user_id: userId,
                 content
             }
         }
     );
+
 }
 
+
 async function deleteComment(commentId) {
+
     return await apiRequest(
         `/api/comments/${encodeURIComponent(commentId)}`,
         {
             method: "DELETE"
         }
     );
+
 }
 
 
-// ==========================================
+// ======================================================
 // FOLLOW
-// ==========================================
+// ======================================================
 
 async function followUser(
     followingId,
     followerId
 ) {
+
     return await apiRequest(
         `/api/users/${encodeURIComponent(followingId)}/follow`,
         {
             method: "POST",
+
             body: {
                 follower_id: followerId
             }
         }
     );
+
 }
+
 
 async function unfollowUser(
     followingId,
     followerId
 ) {
+
     return await apiRequest(
         `/api/users/${encodeURIComponent(followingId)}/follow`,
         {
             method: "DELETE",
+
             body: {
                 follower_id: followerId
             }
         }
     );
+
 }
 
+
 async function getFollowers(userId) {
+
     return await apiRequest(
         `/api/users/${encodeURIComponent(userId)}/followers`
     );
+
 }
 
+
 async function getFollowing(userId) {
+
     return await apiRequest(
         `/api/users/${encodeURIComponent(userId)}/following`
     );
+
 }
 
 
-// ==========================================
+// ======================================================
 // NOTIFICATIONS
-// ==========================================
+// ======================================================
 
 async function getNotifications(userId) {
+
     return await apiRequest(
         `/api/users/${encodeURIComponent(userId)}/notifications`
     );
+
 }
 
-async function markNotificationRead(
-    notificationId
-) {
+
+async function markNotificationRead(notificationId) {
+
     return await apiRequest(
         `/api/notifications/${encodeURIComponent(notificationId)}/read`,
         {
             method: "PATCH"
         }
     );
+
 }
 
+
 async function markAllNotificationsRead(userId) {
+
     return await apiRequest(
         `/api/users/${encodeURIComponent(userId)}/notifications/read-all`,
         {
             method: "PATCH"
         }
     );
+
 }
 
+
 async function deleteNotification(notificationId) {
+
     return await apiRequest(
         `/api/notifications/${encodeURIComponent(notificationId)}`,
         {
             method: "DELETE"
         }
     );
+
 }
 
 
-// ==========================================
+// ======================================================
 // STORIES
-// ==========================================
+// ======================================================
 
 async function getStories() {
     return await apiRequest("/api/stories");
 }
 
+
 async function getUserStories(userId) {
+
     return await apiRequest(
         `/api/users/${encodeURIComponent(userId)}/stories`
     );
+
 }
+
 
 async function createStory({
     user_id,
@@ -277,8 +356,10 @@ async function createStory({
     caption = null,
     expires_at = null
 }) {
+
     return await apiRequest("/api/stories", {
         method: "POST",
+
         body: {
             user_id,
             media_url,
@@ -287,80 +368,99 @@ async function createStory({
             expires_at
         }
     });
+
 }
 
+
 async function viewStory(storyId, userId) {
+
     return await apiRequest(
         `/api/stories/${encodeURIComponent(storyId)}/view`,
         {
             method: "POST",
+
             body: {
                 user_id: userId
             }
         }
     );
+
 }
 
+
 async function deleteStory(storyId, userId) {
+
     return await apiRequest(
         `/api/stories/${encodeURIComponent(storyId)}`,
         {
             method: "DELETE",
+
             body: {
                 user_id: userId
             }
         }
     );
+
 }
 
 
-// ==========================================
+// ======================================================
 // CONVERSATIONS
-// ==========================================
+// ======================================================
 
 async function createConversation(
     userId,
     otherUserId
 ) {
+
     return await apiRequest(
         "/api/conversations",
         {
             method: "POST",
+
             body: {
                 user_id: userId,
                 other_user_id: otherUserId
             }
         }
     );
+
 }
 
+
 async function getConversations(userId) {
+
     return await apiRequest(
         `/api/conversations?user_id=${encodeURIComponent(userId)}`
     );
+
 }
 
 
-// ==========================================
+// ======================================================
 // MESSAGES
-// ==========================================
+// ======================================================
 
-async function sendMessage(
+async function sendQelvuzoMessage(
     conversationId,
     senderId,
     content
 ) {
+
     return await apiRequest(
         `/api/conversations/${encodeURIComponent(conversationId)}/messages`,
         {
             method: "POST",
+
             body: {
                 sender_id: senderId,
                 content
             }
         }
     );
+
 }
+
 
 async function getMessages(
     conversationId,
@@ -368,448 +468,1116 @@ async function getMessages(
     limit = 50,
     before = null
 ) {
+
     let endpoint =
         `/api/conversations/${encodeURIComponent(conversationId)}/messages` +
         `?user_id=${encodeURIComponent(userId)}` +
         `&limit=${limit}`;
 
+
     if (before) {
+
         endpoint +=
             `&before=${encodeURIComponent(before)}`;
+
     }
 
+
     return await apiRequest(endpoint);
+
 }
+
 
 async function markMessageRead(
     messageId,
     userId
 ) {
+
     return await apiRequest(
         `/api/messages/${encodeURIComponent(messageId)}/read`,
         {
             method: "POST",
+
             body: {
                 user_id: userId
             }
         }
     );
+
 }
+
 
 async function getUnreadCount(
     conversationId,
     userId
 ) {
+
     return await apiRequest(
         `/api/conversations/${encodeURIComponent(conversationId)}/unread` +
         `?user_id=${encodeURIComponent(userId)}`
     );
+
 }
 
 
-// ==========================================
-// API TEST
-// ==========================================
+// ======================================================
+// HELPERS
+// ======================================================
 
-async function testQelvuzoAPI() {
+function escapeHTML(text) {
+
+    const div =
+        document.createElement("div");
+
+    div.textContent =
+        text ?? "";
+
+    return div.innerHTML;
+}
+
+
+// ======================================================
+// GET POST ID
+// ======================================================
+
+function getPostId(postElement) {
+
+    if (!postElement) {
+        return null;
+    }
+
+
+    return (
+        postElement.dataset.postId ||
+        postElement.getAttribute("data-post-id")
+    );
+
+}
+
+
+// ======================================================
+// LIKE UI
+// ======================================================
+
+function updateLikeUI(
+    post,
+    liked,
+    count
+) {
+
+    if (!post) {
+        return;
+    }
+
+
+    const button =
+        post.querySelector(".like-btn");
+
+
+    const countElement =
+        post.querySelector(".like-count");
+
+
+    if (countElement && count !== undefined) {
+
+        countElement.textContent =
+            Number(count) || 0;
+
+    }
+
+
+    if (!button) {
+        return;
+    }
+
+
+    button.classList.toggle(
+        "liked",
+        liked
+    );
+
+
+    button.innerHTML =
+        liked
+            ? "♥ Liked"
+            : "♡ Like";
+}
+
+
+// ======================================================
+// REAL LIKE SYSTEM
+// ======================================================
+
+async function handleLike(button) {
+
+    const post =
+        button.closest(".post-card, .post");
+
+
+    if (!post) {
+        return;
+    }
+
+
+    const postId =
+        getPostId(post);
+
+
+    if (!postId) {
+
+        console.warn(
+            "Post ID missing."
+        );
+
+        return;
+    }
+
+
+    const countElement =
+        post.querySelector(".like-count");
+
+
+    let currentCount =
+        parseInt(
+            countElement?.textContent || "0"
+        );
+
+
+    const wasLiked =
+        button.classList.contains("liked");
+
+
+    button.disabled = true;
+
+
     try {
-        const health = await qelvuzoHealth();
 
-        console.log(
-            "Qelvuzo API connected:",
-            health
-        );
+        if (wasLiked) {
 
-        const posts = await getPosts();
+            await unlikePost(
+                postId,
+                CURRENT_USER_ID
+            );
 
-        console.log(
-            "Qelvuzo posts:",
-            posts
-        );
 
-        return {
-            health,
-            posts
-        };
+            currentCount =
+                Math.max(
+                    0,
+                    currentCount - 1
+                );
+
+
+            updateLikeUI(
+                post,
+                false,
+                currentCount
+            );
+
+        } else {
+
+            await likePost(
+                postId,
+                CURRENT_USER_ID
+            );
+
+
+            currentCount++;
+
+            updateLikeUI(
+                post,
+                true,
+                currentCount
+            );
+
+        }
 
     } catch (error) {
+
         console.error(
-            "Qelvuzo API error:",
+            "Like API error:",
             error
         );
 
-        return null;
+    } finally {
+
+        button.disabled = false;
+
     }
+
 }
 
 
-// ==========================================
-// INITIAL API TEST
-// ==========================================
+// ======================================================
+// REAL FOLLOW SYSTEM
+// ======================================================
 
-document.addEventListener(
-    "DOMContentLoaded",
-    () => {
-        testQelvuzoAPI();
+async function handleFollow(button) {
+
+    const followingId =
+        button.dataset.userId;
+
+
+    if (!followingId) {
+
+        console.warn(
+            "Following user ID missing."
+        );
+
+        return;
     }
-);
 
 
-// ==========================================
-// LOAD POSTS
-// ==========================================
+    const isFollowing =
+        button.classList.contains("following");
 
-async function loadQelvuzoPosts() {
-  try {
-    const data = await getPosts();
 
-    console.log("Qelvuzo posts loaded:", data);
+    button.disabled = true;
 
-    return data.posts || [];
 
-  } catch (error) {
-    console.error(
-      "Failed to load Qelvuzo posts:",
-      error
-    );
-
-    return [];
-  }
-}
-
-// ==========================================
-// QELVUZO POSTS
-// ==========================================
-
-async function getQelvuzoPosts() {
     try {
-        const data = await apiRequest("/api/posts");
 
-        console.log("Qelvuzo Posts:", data);
+        if (isFollowing) {
 
-        return data.posts || [];
+            await unfollowUser(
+                followingId,
+                CURRENT_USER_ID
+            );
+
+
+            button.classList.remove(
+                "following"
+            );
+
+            button.textContent =
+                "Follow";
+
+        } else {
+
+            await followUser(
+                followingId,
+                CURRENT_USER_ID
+            );
+
+
+            button.classList.add(
+                "following"
+            );
+
+            button.textContent =
+                "Following";
+
+        }
+
     } catch (error) {
-        console.error("Posts API Error:", error);
-        return [];
+
+        console.error(
+            "Follow API error:",
+            error
+        );
+
+    } finally {
+
+        button.disabled = false;
+
     }
+
 }
-// ==========================================
-// API HEALTH
-// ==========================================
 
-async function checkQelvuzoAPI() {
-  try {
-    const data = await apiRequest("/api/health");
 
-    console.log(
-      "Qelvuzo API connected:",
-      data
-    );
+// ======================================================
+// COMMENTS UI
+// ======================================================
 
-    return data;
+function createCommentBox(post) {
 
-  } catch (error) {
+    let commentBox =
+        post.querySelector(".comment-box");
 
-    console.error(
-      "Qelvuzo API connection failed:",
-      error
-    );
 
-    return null;
-  }
-}// Qelvuzo — Main App JavaScript
-
-document.addEventListener("DOMContentLoaded", () => {
-
-    /* =========================
-       MOBILE MENU
-       ========================= */
-
-    const menuBtn = document.querySelector(".menu-btn");
-    const sidebar = document.querySelector(".sidebar");
-
-    if (menuBtn && sidebar) {
-        menuBtn.addEventListener("click", () => {
-            sidebar.classList.toggle("active");
-        });
+    if (commentBox) {
+        return commentBox;
     }
 
 
-    /* =========================
-       LIKE SYSTEM
-       ========================= */
+    commentBox =
+        document.createElement("div");
 
-    const likeButtons = document.querySelectorAll(".like-btn");
 
-    likeButtons.forEach(button => {
+    commentBox.className =
+        "comment-box";
 
-        button.addEventListener("click", () => {
 
-            const post = button.closest(".post, .post-card");
+    commentBox.style.marginTop =
+        "12px";
 
-            if (!post) return;
 
-            const countElement =
-                post.querySelector(".like-count");
+    commentBox.innerHTML = `
 
-            const alreadyLiked =
-                button.classList.contains("liked");
+        <div
+            style="
+                display:flex;
+                gap:8px;
+            "
+        >
 
-            if (countElement) {
+            <input
+                type="text"
+                class="comment-input"
+                placeholder="Write a comment..."
+                style="
+                    flex:1;
+                    border:1px solid var(--border);
+                    border-radius:10px;
+                    padding:10px 12px;
+                    outline:none;
+                "
+            >
 
-                let count =
-                    parseInt(countElement.textContent) || 0;
+            <button
+                type="button"
+                class="comment-submit"
+                style="
+                    border:0;
+                    border-radius:10px;
+                    padding:10px 14px;
+                    background:var(--primary);
+                    color:white;
+                    cursor:pointer;
+                "
+            >
+                Comment
+            </button>
 
-                if (alreadyLiked) {
-                    count = Math.max(0, count - 1);
-                } else {
-                    count++;
-                }
+        </div>
 
-                countElement.textContent = count;
-            }
+        <div
+            class="comments-list"
+            style="margin-top:10px;"
+        ></div>
 
-            button.classList.toggle("liked");
+    `;
 
-            // Change button text
-            if (button.classList.contains("liked")) {
-                button.innerHTML = "♥ Liked";
-            } else {
-                button.innerHTML = "♡ Like";
-            }
+
+    post.appendChild(
+        commentBox
+    );
+
+
+    return commentBox;
+}
+
+
+// ======================================================
+// LOAD COMMENTS
+// ======================================================
+
+async function loadComments(
+    post,
+    postId
+) {
+
+    const commentBox =
+        createCommentBox(post);
+
+
+    const list =
+        commentBox.querySelector(
+            ".comments-list"
+        );
+
+
+    if (!list) {
+        return;
+    }
+
+
+    list.innerHTML =
+        "<div style='font-size:12px;color:var(--muted);'>Loading...</div>";
+
+
+    try {
+
+        const data =
+            await getComments(postId);
+
+
+        const comments =
+            data.comments || [];
+
+
+        list.innerHTML = "";
+
+
+        if (!comments.length) {
+
+            list.innerHTML =
+                "<div style='font-size:12px;color:var(--muted);'>No comments yet.</div>";
+
+            return;
+        }
+
+
+        comments.forEach(comment => {
+
+            const item =
+                document.createElement("div");
+
+
+            item.style.marginTop =
+                "8px";
+
+
+            item.style.padding =
+                "9px 12px";
+
+
+            item.style.background =
+                "#f5f4ff";
+
+
+            item.style.borderRadius =
+                "10px";
+
+
+            item.style.fontSize =
+                "13px";
+
+
+            const username =
+                comment.username ||
+                comment.name ||
+                comment.user_name ||
+                "User";
+
+
+            item.innerHTML = `
+
+                <strong>
+                    ${escapeHTML(username)}
+                </strong>
+
+                <br>
+
+                ${escapeHTML(
+                    comment.content || ""
+                )}
+
+            `;
+
+
+            list.appendChild(item);
 
         });
 
-    });
+
+    } catch (error) {
+
+        console.error(
+            "Comments API error:",
+            error
+        );
 
 
-    /* =========================
-       FOLLOW SYSTEM
-       ========================= */
+        list.innerHTML =
+            "<div style='font-size:12px;color:#b00020;'>Failed to load comments.</div>";
 
-    const followButtons =
-        document.querySelectorAll(".follow-btn");
+    }
 
-    followButtons.forEach(button => {
-
-        button.addEventListener("click", () => {
-
-            const following =
-                button.classList.contains("following");
-
-            if (following) {
-
-                button.classList.remove("following");
-
-                button.textContent = "Follow";
-
-            } else {
-
-                button.classList.add("following");
-
-                button.textContent = "Following";
-
-            }
-
-        });
-
-    });
+}
 
 
-    /* =========================
-       SHARE SYSTEM
-       ========================= */
+// ======================================================
+// SUBMIT COMMENT
+// ======================================================
 
-    const shareButtons =
-        document.querySelectorAll(".share-btn");
+async function submitComment(
+    post,
+    input
+) {
 
-    shareButtons.forEach(button => {
-
-        button.addEventListener("click", async () => {
-
-            const post =
-                button.closest(".post, .post-card");
-
-            if (!post) return;
-
-            const text =
-                post.innerText.substring(0, 250);
-
-            try {
-
-                if (navigator.share) {
-
-                    await navigator.share({
-                        title: "Qelvuzo",
-                        text: text
-                    });
-
-                } else if (navigator.clipboard) {
-
-                    await navigator.clipboard.writeText(text);
-
-                    const original =
-                        button.innerText;
-
-                    button.innerText = "Shared";
-
-                    setTimeout(() => {
-                        button.innerText = original;
-                    }, 1500);
-
-                } else {
-
-                    alert("Sharing is not available.");
-
-                }
-
-            } catch (error) {
-
-                // User cancelled native share.
-                console.log("Share cancelled.");
-
-            }
-
-        });
-
-    });
+    const postId =
+        getPostId(post);
 
 
-    /* =========================
-       SEARCH
-       ========================= */
+    if (!postId) {
+        return;
+    }
 
-    const searchInputs =
-        document.querySelectorAll(".search-input");
 
-    searchInputs.forEach(input => {
+    const content =
+        input.value.trim();
 
-        input.addEventListener("input", () => {
 
-            const query =
-                input.value.toLowerCase().trim();
+    if (!content) {
+        return;
+    }
 
-            const cards =
-                document.querySelectorAll(
-                    ".person-card, " +
-                    ".trend-card, " +
-                    ".community-card, " +
-                    ".popular-post"
+
+    const button =
+        post.querySelector(
+            ".comment-submit"
+        );
+
+
+    if (button) {
+        button.disabled = true;
+    }
+
+
+    try {
+
+        await createComment(
+            postId,
+            CURRENT_USER_ID,
+            content
+        );
+
+
+        input.value = "";
+
+
+        await loadComments(
+            post,
+            postId
+        );
+
+
+    } catch (error) {
+
+        console.error(
+            "Create comment API error:",
+            error
+        );
+
+        alert(
+            "Could not post your comment."
+        );
+
+    } finally {
+
+        if (button) {
+            button.disabled = false;
+        }
+
+    }
+
+}
+
+
+// ======================================================
+// COMMENT SYSTEM
+// ======================================================
+
+function handleComment(button) {
+
+    const post =
+        button.closest(
+            ".post-card, .post"
+        );
+
+
+    if (!post) {
+        return;
+    }
+
+
+    const postId =
+        getPostId(post);
+
+
+    if (!postId) {
+
+        console.warn(
+            "Post ID missing."
+        );
+
+        return;
+    }
+
+
+    const commentBox =
+        createCommentBox(post);
+
+
+    const input =
+        commentBox.querySelector(
+            ".comment-input"
+        );
+
+
+    if (input) {
+        input.focus();
+    }
+
+
+    loadComments(
+        post,
+        postId
+    );
+
+
+    const submit =
+        commentBox.querySelector(
+            ".comment-submit"
+        );
+
+
+    if (
+        submit &&
+        !submit.dataset.connected
+    ) {
+
+        submit.dataset.connected =
+            "true";
+
+
+        submit.addEventListener(
+            "click",
+            () => {
+
+                submitComment(
+                    post,
+                    input
                 );
 
-            cards.forEach(card => {
+            }
+        );
 
-                const text =
-                    card.innerText.toLowerCase();
 
-                if (query === "" || text.includes(query)) {
+        input.addEventListener(
+            "keydown",
+            event => {
 
-                    card.style.display = "";
+                if (event.key === "Enter") {
 
-                } else {
+                    event.preventDefault();
 
-                    card.style.display = "none";
+                    submitComment(
+                        post,
+                        input
+                    );
 
                 }
 
+            }
+        );
+
+    }
+
+}
+
+
+// ======================================================
+// SHARE SYSTEM
+// ======================================================
+
+async function handleShare(button) {
+
+    const post =
+        button.closest(
+            ".post-card, .post"
+        );
+
+
+    if (!post) {
+        return;
+    }
+
+
+    const text =
+        post.innerText.substring(
+            0,
+            250
+        );
+
+
+    try {
+
+        if (navigator.share) {
+
+            await navigator.share({
+                title: "Qelvuzo",
+                text
             });
 
-        });
+        } else if (navigator.clipboard) {
+
+            await navigator.clipboard.writeText(
+                text
+            );
+
+
+            const original =
+                button.innerText;
+
+
+            button.innerText =
+                "Shared";
+
+
+            setTimeout(() => {
+
+                button.innerText =
+                    original;
+
+            }, 1500);
+
+        } else {
+
+            alert(
+                "Sharing is not available."
+            );
+
+        }
+
+    } catch (error) {
+
+        console.log(
+            "Share cancelled."
+        );
+
+    }
+
+}
+
+
+// ======================================================
+// SEARCH
+// ======================================================
+
+function setupSearch() {
+
+    const inputs =
+        document.querySelectorAll(
+            ".search-input"
+        );
+
+
+    inputs.forEach(input => {
+
+        input.addEventListener(
+            "input",
+            () => {
+
+                const query =
+                    input.value
+                        .toLowerCase()
+                        .trim();
+
+
+                const cards =
+                    document.querySelectorAll(
+                        ".person-card, " +
+                        ".trend-card, " +
+                        ".community-card, " +
+                        ".popular-post"
+                    );
+
+
+                cards.forEach(card => {
+
+                    const text =
+                        card.innerText
+                            .toLowerCase();
+
+
+                    card.style.display =
+                        (
+                            query === "" ||
+                            text.includes(query)
+                        )
+                            ? ""
+                            : "none";
+
+                });
+
+            }
+        );
 
     });
 
+}
 
-    /* =========================
-       NOTIFICATIONS
-       ========================= */
+
+// ======================================================
+// LOAD REAL POSTS
+// ======================================================
+
+async function loadRealPosts() {
+
+    try {
+
+        const data =
+            await getPosts();
+
+
+        console.log(
+            "Qelvuzo posts:",
+            data
+        );
+
+
+        const posts =
+            data.posts || [];
+
+
+        if (!Array.isArray(posts)) {
+            return;
+        }
+
+
+        /*
+         * আপাতত existing design-এর static posts
+         * remove করছি না।
+         *
+         * Backend থেকে real posts এলে console-এ
+         * data পাওয়া যাবে।
+         *
+         * পরের update-এ আমরা backend data দিয়ে
+         * একই design-এর dynamic cards render করব।
+         */
+
+        return posts;
+
+    } catch (error) {
+
+        console.error(
+            "Failed to load Qelvuzo posts:",
+            error
+        );
+
+
+        return [];
+
+    }
+
+}
+
+
+// ======================================================
+// API CONNECTION TEST
+// ======================================================
+
+async function checkQelvuzoAPI() {
+
+    try {
+
+        const data =
+            await qelvuzoHealth();
+
+
+        console.log(
+            "Qelvuzo API connected:",
+            data
+        );
+
+
+        return data;
+
+    } catch (error) {
+
+        console.error(
+            "Qelvuzo API connection failed:",
+            error
+        );
+
+
+        return null;
+
+    }
+
+}
+
+
+// ======================================================
+// MOBILE MENU
+// ======================================================
+
+function setupMobileMenu() {
+
+    const menuBtn =
+        document.querySelector(
+            ".menu-btn"
+        );
+
+
+    const sidebar =
+        document.querySelector(
+            ".sidebar"
+        );
+
+
+    if (
+        menuBtn &&
+        sidebar
+    ) {
+
+        menuBtn.addEventListener(
+            "click",
+            () => {
+
+                sidebar.classList.toggle(
+                    "active"
+                );
+
+            }
+        );
+
+    }
+
+
+    document.addEventListener(
+        "keydown",
+        event => {
+
+            if (
+                event.key === "Escape" &&
+                sidebar
+            ) {
+
+                sidebar.classList.remove(
+                    "active"
+                );
+
+            }
+
+        }
+    );
+
+}
+
+
+// ======================================================
+// NOTIFICATIONS
+// ======================================================
+
+function setupNotifications() {
 
     const markAllRead =
-        document.querySelector(".mark-all-read");
+        document.querySelector(
+            ".mark-all-read"
+        );
 
-    if (markAllRead) {
 
-        markAllRead.addEventListener("click", () => {
+    if (!markAllRead) {
+        return;
+    }
+
+
+    markAllRead.addEventListener(
+        "click",
+        async () => {
 
             const unreadItems =
                 document.querySelectorAll(
                     ".notification.unread"
                 );
 
+
             unreadItems.forEach(item => {
-                item.classList.remove("unread");
+
+                item.classList.remove(
+                    "unread"
+                );
+
             });
 
 
             const unreadDots =
-                document.querySelectorAll(".unread-dot");
+                document.querySelectorAll(
+                    ".unread-dot"
+                );
+
 
             unreadDots.forEach(dot => {
-                dot.style.display = "none";
+
+                dot.style.display =
+                    "none";
+
             });
 
-        });
 
-    }
+            try {
+
+                await markAllNotificationsRead(
+                    CURRENT_USER_ID
+                );
+
+            } catch (error) {
+
+                console.error(
+                    "Notification API error:",
+                    error
+                );
+
+            }
+
+        }
+    );
+
+}
 
 
-    /* =========================
-       CHAT SYSTEM
-       ========================= */
+// ======================================================
+// CHAT SYSTEM
+// ======================================================
+
+function setupChat() {
 
     const messageInput =
-        document.querySelector(".message-input");
+        document.querySelector(
+            ".message-input"
+        );
+
 
     const sendButton =
-        document.querySelector(".send-btn");
+        document.querySelector(
+            ".send-btn"
+        );
+
 
     const chatMessages =
-        document.querySelector(".chat-messages");
+        document.querySelector(
+            ".chat-messages"
+        );
 
 
-    function escapeHTML(text) {
+    if (
+        !messageInput ||
+        !chatMessages
+    ) {
 
-        const div =
-            document.createElement("div");
-
-        div.textContent = text;
-
-        return div.innerHTML;
+        return;
 
     }
 
 
-    function sendMessage() {
-
-        if (!messageInput || !chatMessages) {
-            return;
-        }
-
-        const message =
-            messageInput.value.trim();
-
-        if (message === "") {
-            return;
-        }
-
+    function addLocalMessage(
+        message
+    ) {
 
         const messageElement =
-            document.createElement("div");
+            document.createElement(
+                "div"
+            );
+
 
         messageElement.className =
             "message sent";
 
 
         messageElement.innerHTML = `
+
             <div class="message-bubble">
                 ${escapeHTML(message)}
             </div>
+
         `;
 
 
-        chatMessages.appendChild(messageElement);
-
-
-        messageInput.value = "";
+        chatMessages.appendChild(
+            messageElement
+        );
 
 
         chatMessages.scrollTop =
@@ -818,173 +1586,77 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
 
+    async function sendChatMessage() {
+
+        const message =
+            messageInput.value.trim();
+
+
+        if (!message) {
+            return;
+        }
+
+
+        addLocalMessage(
+            message
+        );
+
+
+        messageInput.value = "";
+
+
+        /*
+         * Conversation ID পাওয়া গেলে
+         * এখানে backend sendMessage API
+         * ব্যবহার করা হবে।
+         */
+
+    }
+
+
     if (sendButton) {
 
         sendButton.addEventListener(
             "click",
-            sendMessage
+            sendChatMessage
         );
 
     }
 
 
-    if (messageInput) {
+    messageInput.addEventListener(
+        "keydown",
+        event => {
 
-        messageInput.addEventListener(
-            "keydown",
-            event => {
+            if (event.key === "Enter") {
 
-                if (event.key === "Enter") {
+                event.preventDefault();
 
-                    event.preventDefault();
-
-                    sendMessage();
-
-                }
-
-            }
-        );
-
-    }
-
-
-    /* =========================
-       COMMENT BUTTON
-       ========================= */
-
-    const commentButtons =
-        document.querySelectorAll(".comment-btn");
-
-    commentButtons.forEach(button => {
-
-        button.addEventListener("click", () => {
-
-            const post =
-                button.closest(".post, .post-card");
-
-            if (!post) return;
-
-            let commentBox =
-                post.querySelector(".comment-box");
-
-
-            // Create comment box if it doesn't exist
-            if (!commentBox) {
-
-                commentBox =
-                    document.createElement("div");
-
-                commentBox.className =
-                    "comment-box";
-
-                commentBox.style.marginTop = "12px";
-
-                commentBox.innerHTML = `
-                    <input
-                        type="text"
-                        class="comment-input"
-                        placeholder="Write a comment..."
-                    >
-
-                    <button
-                        type="button"
-                        class="comment-submit"
-                    >
-                        Comment
-                    </button>
-
-                    <div class="comments-list"></div>
-                `;
-
-                post.appendChild(commentBox);
+                sendChatMessage();
 
             }
 
+        }
+    );
 
-            const input =
-                commentBox.querySelector(
-                    ".comment-input"
-                );
-
-            if (input) {
-                input.focus();
-            }
+}
 
 
-            const submit =
-                commentBox.querySelector(
-                    ".comment-submit"
-                );
+// ======================================================
+// ACTIVE NAVIGATION
+// ======================================================
 
+function setupActiveNavigation() {
 
-            if (submit && !submit.dataset.connected) {
-
-                submit.dataset.connected = "true";
-
-
-                submit.addEventListener(
-                    "click",
-                    () => {
-
-                        const value =
-                            input.value.trim();
-
-                        if (!value) return;
-
-
-                        const commentsList =
-                            commentBox.querySelector(
-                                ".comments-list"
-                            );
-
-
-                        const comment =
-                            document.createElement("div");
-
-                        comment.style.marginTop = "8px";
-
-                        comment.style.padding = "9px 12px";
-
-                        comment.style.background =
-                            "#f5f4ff";
-
-                        comment.style.borderRadius =
-                            "10px";
-
-                        comment.style.fontSize =
-                            "13px";
-
-
-                        comment.innerHTML = `
-                            <strong>You</strong>
-                            <br>
-                            ${escapeHTML(value)}
-                        `;
-
-
-                        commentsList.appendChild(comment);
-
-
-                        input.value = "";
-
-                    }
-                );
-
-            }
-
-        });
-
-    });
-
-
-    /* =========================
-       ACTIVE NAVIGATION
-       ========================= */
-
-    const currentPage =
+    let currentPage =
         window.location.pathname
             .split("/")
             .pop();
+
+
+    if (!currentPage) {
+        currentPage = "index.html";
+    }
 
 
     const navLinks =
@@ -998,56 +1670,158 @@ document.addEventListener("DOMContentLoaded", () => {
         const href =
             link.getAttribute("href");
 
+
         if (
             href &&
             href !== "#" &&
             href === currentPage
         ) {
 
-            link.classList.add("active");
+            link.classList.add(
+                "active"
+            );
 
         }
 
     });
 
+}
 
-    /* =========================
-       ESC KEY
-       ========================= */
 
-    document.addEventListener(
-        "keydown",
-        event => {
+// ======================================================
+// FRONTEND EVENTS
+// ======================================================
 
-            if (event.key === "Escape") {
+function setupPostEvents() {
 
-                if (sidebar) {
-                    sidebar.classList.remove("active");
+    // -----------------------------
+    // LIKE
+    // -----------------------------
+
+    document
+        .querySelectorAll(".like-btn")
+        .forEach(button => {
+
+            button.addEventListener(
+                "click",
+                () => {
+
+                    handleLike(
+                        button
+                    );
+
                 }
+            );
 
-            }
+        });
 
-        }
-    );
-// ==========================================
-// API CONNECTION TEST
-// ==========================================
 
-checkQelvuzoAPI();
+    // -----------------------------
+    // COMMENT
+    // -----------------------------
 
-});
+    document
+        .querySelectorAll(".comment-btn")
+        .forEach(button => {
 
-// ==========================================
-// TEST POSTS API
-// ==========================================
+            button.addEventListener(
+                "click",
+                () => {
 
-loadQelvuzoPosts();
-// ==========================================
-// LOAD REAL POSTS
-// ==========================================
+                    handleComment(
+                        button
+                    );
 
-document.addEventListener("DOMContentLoaded", async () => {
-    const posts = await getQelvuzoPosts();
+                }
+            );
 
-    console.log("Real D1 posts:", posts);
-});
+        });
+
+
+    // -----------------------------
+    // SHARE
+    // -----------------------------
+
+    document
+        .querySelectorAll(".share-btn")
+        .forEach(button => {
+
+            button.addEventListener(
+                "click",
+                () => {
+
+                    handleShare(
+                        button
+                    );
+
+                }
+            );
+
+        });
+
+
+    // -----------------------------
+    // FOLLOW
+    // -----------------------------
+
+    document
+        .querySelectorAll(".follow-btn")
+        .forEach(button => {
+
+            button.addEventListener(
+                "click",
+                () => {
+
+                    handleFollow(
+                        button
+                    );
+
+                }
+            );
+
+        });
+
+}
+
+
+// ======================================================
+// APPLICATION START
+// ======================================================
+
+document.addEventListener(
+    "DOMContentLoaded",
+    async () => {
+
+        console.log(
+            "Qelvuzo frontend started."
+        );
+
+
+        // API health
+        await checkQelvuzoAPI();
+
+
+        // Existing UI
+        setupMobileMenu();
+
+        setupNotifications();
+
+        setupChat();
+
+        setupSearch();
+
+        setupActiveNavigation();
+
+        setupPostEvents();
+
+
+        // Backend posts
+        await loadRealPosts();
+
+
+        console.log(
+            "Qelvuzo frontend ready."
+        );
+
+    }
+);
