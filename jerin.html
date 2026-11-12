@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="theme-color" content="#171326"><meta name="description" content="Jerin's Space on Qelvuzo">
+  <title>Jerin's Space — Qelvuzo</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:wght@500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/jerin.css">
+</head>
+<body>
+  <div class="stars" aria-hidden="true"></div>
+  <header class="nav"><a class="logo" href="/home.html"><span>q</span> Qelvuzo</a><nav><a href="/home.html">Home</a><a href="/explore.html">Explore</a><a href="/messages.html">Messages</a></nav><a class="back" href="/home.html">← Back to Qelvuzo</a></header>
+  <main class="wrap">
+    <section class="hero">
+      <div class="moon"></div><i class="spark s1">✦</i><i class="spark s2">✧</i><i class="spark s3">✦</i>
+      <div class="hero-inner"><div class="eyebrow">A LITTLE CORNER OF QELVUZO</div>
+        <div class="identity"><div class="avatar" aria-hidden="true">J</div><div class="identity-text"><h1>Jerin</h1><span class="verified" id="verifiedBadge" hidden title="Verified account"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2.2 14.7 4l3.2-.1 1.3 2.9 2.6 1.9-.8 3.1.8 3.1-2.6 1.9-1.3 2.9-3.2-.1L12 21.4 9.3 19.6l-3.2.1-1.3-2.9-2.6-1.9.8-3.1-.8-3.1 2.6-1.9 1.3-2.9 3.2.1L12 2.2Z"/><path d="m8 12.2 2.5 2.5 5.6-5.6"/></svg><span>Verified</span></span></div></div>
+        <p class="hero-sub">A calm little place for kind thoughts, happy memories, and the small things worth keeping.</p><a class="pill" href="#message">Explore this space <span>↓</span></a>
+      </div><div class="hero-foot">MADE WITH A LITTLE EXTRA CARE</div>
+    </section>
+    <section class="welcome"><span class="welcome-icon">☾</span><div><small>HEY, JERIN</small><h2>You're welcome here.</h2></div><p>Take your time. There's no rush in this little space.</p></section>
+    <section class="message-grid" id="message">
+      <article class="panel message"><div class="kicker">01 <b>·</b> A LITTLE MESSAGE</div><h2>Some words<br><em>for you.</em></h2><p id="messageText">Some people make ordinary days feel a little brighter. This space is a small reminder that your presence is appreciated. Keep being yourself, keep smiling, and keep making your own kind of magic.</p><div class="sign">with good wishes,<strong>— from your friend</strong></div><button id="editMessage" class="link-button" type="button">Personalize this message ↗</button></article>
+      <aside class="panel quote"><div class="quote-mark">“</div><p>Little moments can become the memories we keep closest.</p><small>— A THOUGHT TO KEEP</small><span class="quote-flower">✧</span></aside>
+    </section>
+    <section class="memories"><div class="section-head"><div><div class="kicker">02 <b>·</b> THE MEMORY GARDEN</div><h2>Little moments,<br><em>lovely memories.</em></h2></div><p>A few soft corners of the world. Replace these cards with moments you both want to remember.</p></div>
+      <div class="memory-grid">
+        <article class="memory-card"><div class="art sky"><span class="sun"></span><span class="cloud c1"></span><span class="cloud c2"></span><label>A peaceful sky</label></div><small>01 / DAYDREAM</small><h3>Somewhere between clouds</h3><p>A reminder to pause and enjoy the view.</p></article>
+        <article class="memory-card"><div class="art bloom"><span>✿</span><span>✿</span><span>✿</span><label>A little bloom</label></div><small>02 / BLOOM</small><h3>Keep growing</h3><p>Good things take their own time.</p></article>
+        <article class="memory-card"><div class="art night"><span class="nightmoon"></span><b>✦</b><i>✧</i><label>A quiet night</label></div><small>03 / NIGHT NOTES</small><h3>Peace in little things</h3><p>May the quiet moments be kind to you.</p></article>
+      </div>
+    </section>
+    <section class="notes"><div class="kicker">03 <b>·</b> LITTLE THINGS</div><h2>Small notes to <em>remember.</em></h2><div class="note-grid"><p><span>✧</span>You don't have to be perfect to be appreciated.</p><p><span>☼</span>Make room for the things that make you happy.</p><p><span>❀</span>Your own pace is a perfectly good pace.</p></div></section>
+    <section class="music"><div class="music-icon">♫</div><div class="music-copy"><div class="kicker">04 <b>·</b> MUSIC CORNER</div><h2>A soundtrack for <em>slow moments.</em></h2><p>Add a YouTube or Spotify link. It opens on that platform; Qelvuzo does not host the audio.</p></div><form id="musicForm"><label class="sr-only" for="musicUrl">Music URL</label><input id="musicUrl" type="url" placeholder="Paste a YouTube or Spotify link" required><button type="submit">Open song ↗</button><small id="musicStatus" aria-live="polite">The link is kept in this browser only.</small></form></section>
+    <footer><div class="footer-star">✧</div><h2>Stay kind. Stay <em>you.</em></h2><p>Every good day starts with a little hope.</p><a href="/home.html">Return to Qelvuzo ↗</a><div class="footer-line"><span>QELVUZO · JERIN'S SPACE</span><span>MADE OF SMALL, GOOD THINGS ✦</span></div></footer>
+  </main>
+  <dialog id="messageDialog"><form method="dialog"><button class="close" value="cancel" aria-label="Close">×</button><div class="kicker">MAKE IT YOURS</div><h2>Personalize the message</h2><p class="privacy">Saved on this device only. This does not publish a message to other users.</p><label for="messageInput">Your message</label><textarea id="messageInput" maxlength="700" rows="5"></textarea><div class="dialog-actions"><button class="cancel" value="cancel">Cancel</button><button id="saveMessage" class="save" value="default">Save on this device</button></div><small id="saveStatus" aria-live="polite"></small></form></dialog>
+  <script src="js/jerin.js"></script>
+</body></html>
